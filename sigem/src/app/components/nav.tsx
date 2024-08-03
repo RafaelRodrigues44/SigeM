@@ -15,9 +15,6 @@ const Nav: React.FC = () => {
     <nav className="bg-gray-800 text-white w-64 min-h-screen p-4 text-center">
       <ul className="space-y-2">
         <li className="hover:bg-gray-700 p-2 rounded">
-          <Link href="/">Início</Link>
-        </li>
-        <li className="hover:bg-gray-700 p-2 rounded">
           <button onClick={toggleMachinesSubmenu} className="w-full text-left text-center">
             Máquinas
           </button>
