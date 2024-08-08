@@ -1,4 +1,4 @@
-# PRD - Product Requirements Document (Template)
+# PRD - Product Requirements Document 
 
 ## Introdução & Objetivo
 
