@@ -5,8 +5,6 @@
 O sistema é uma aplicação web que visa melhorar o gerenciamento de manutenção e o controle de estoque de peças de reposição para o cliente. Com uma plataforma integrada, o sistema permite o cadastro e acompanhamento das máquinas e solicitações de manutenção, além de um controle preciso do estoque de peças. A solução centraliza todas as informações necessárias, eliminando a necessidade de sistemas múltiplos ou planilhas dispersas, e facilita o gerenciamento de maneira eficiente e intuitiva.
 Este sistema se destaca pela sua capacidade de integrar funcionalidades de agendamento, monitoramento e documentação, com abordagem orientada para o usuário. A visão é oferecer uma solução completa que gere valor ao proporcionar eficiência e transparência no gerenciamento.
 
-
-
 ## Por que implementar isto?
 A implementação do Sistema é justificada pela necessidade de melhorar a eficiência e a produtividade da empresa, automatizando os processos de manutenção que atualmente são realizados manualmente. Empresas que utilizam sistemas automatizados de gerenciamento de manutenção têm relatado melhorias significativas na organização e na redução de custos. 
 Além disso, existe uma demanda crescente por soluções de gerenciamento de manutenção no mercado industrial, apresentando uma oportunidade estratégica. 
@@ -39,9 +37,6 @@ Identificar os principais grupos de usuários ajudará a personalizar o desenvol
    - **Descrição:** Ana é responsável pelo gerenciamento do estoque de peças e ferramentas, incluindo a entrada e saída de itens conforme as ordens de serviço.
    - **Objetivos:** Garantir que o estoque esteja sempre atualizado, processar rapidamente as entradas e saídas de peças e ferramentas e manter um registro preciso das quantidades em estoque.
 ---
-
-
-
 
 
 Aqui estão os requisitos funcionais atualizados com os novos itens:
@@ -113,8 +108,8 @@ flowchart TD
     F --> B
 
 
-    classDef correct fill:#a2f0a5,stroke:#000,stroke-width:2px;
-    classDef error fill:#f0a5a2,stroke:#000,stroke-width:2px;
+    classDef correct fill:#008000,stroke:#000,stroke-width:2px;
+    classDef error fill:#b03a2e,stroke:#000,stroke-width:2px;
 
 
     class E,G correct;
@@ -148,8 +143,8 @@ flowchart TD
 	F --> H[Sistema exibe mensagem de sucesso]
 	G --> B
 
-	classDef success fill:#a2f0a5,stroke:#000,stroke-width:2px;
-	classDef error fill:#f0a5a2,stroke:#000,stroke-width:2px;
+	classDef success fill:#008000,stroke:#000,stroke-width:2px;
+	classDef error fill:#b03a2e,stroke:#000,stroke-width:2px;
 
 	class F,H success;
 	class G error;
@@ -181,8 +176,8 @@ flowchart TD
 	E --> G[Sistema exibe mensagem de sucesso]
 	F --> B
 
-	classDef success fill:#a2f0a5,stroke:#000,stroke-width:2px;
-	classDef error fill:#f0a5a2,stroke:#000,stroke-width:2px;
+	classDef success fill:#008000,stroke:#000,stroke-width:2px;
+	classDef error fill:#b03a2e,stroke:#000,stroke-width:2px;
 
 	class E,G success;
 	class F error;
@@ -216,8 +211,8 @@ flowchart TD
 	E --> G[Sistema exibe mensagem de sucesso]
 	F --> B
 
-	classDef success fill:#a2f0a5,stroke:#000,stroke-width:2px;
-	classDef error fill:#f0a5a2,stroke:#000,stroke-width:2px;
+	classDef success fill:#008000,stroke:#000,stroke-width:2px;
+	classDef error fill:#b03a2e,stroke:#000,stroke-width:2px;
 
 	class E,G success;
 	class F error;
@@ -252,8 +247,8 @@ flowchart TD
 	E --> G[Fim do processo]
 	F --> G
 
-	classDef success fill:#a2f0a5,stroke:#000,stroke-width:2px;
-	classDef error fill:#f0a5a2,stroke:#000,stroke-width:2px;
+	classDef success fill:#008000,stroke:#000,stroke-width:2px;
+	classDef error fill:#b03a2e,stroke:#000,stroke-width:2px;
 
 	class E success;
 	class F error;
@@ -285,8 +280,8 @@ flowchart TD
 	E --> G[Sistema exibe mensagem de confirmação de alteração]
 	F --> B
 
-	classDef success fill:#a2f0a5,stroke:#000,stroke-width:2px;
-	classDef error fill:#f0a5a2,stroke:#000,stroke-width:2px;
+	classDef success fill:#008000,stroke:#000,stroke-width:2px;
+	classDef error fill:#b03a2e,stroke:#000,stroke-width:2px;
 
 	class E,G success;
 	class F error;
@@ -318,8 +313,8 @@ flowchart TD
 	E --> G[Sistema exibe mensagem de confirmação de alteração]
 	F --> B
 
-	classDef success fill:#a2f0a5,stroke:#000,stroke-width:2px;
-	classDef error fill:#f0a5a2,stroke:#000,stroke-width:2px;
+	classDef success fill:#008000,stroke:#000,stroke-width:2px;
+	classDef error fill:#b03a2e,stroke:#000,stroke-width:2px;
 
 	class E,G success;
 	class F error;
