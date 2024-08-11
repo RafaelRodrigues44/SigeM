@@ -1,5 +1,4 @@
 import React from 'react';
-import { Machine } from '../../machines/types';  
 
 interface MaintenanceHistory {
   date: string;
@@ -18,7 +17,7 @@ interface MachineDetailProps {
     location: string;
     imageUrl: string;
     maintenanceHistory: MaintenanceHistory[];
-    partsInfo: React.ReactNode; // Atualizado para React.ReactNode para aceitar qualquer tipo de conteúdo
+    partsInfo: React.ReactNode; 
   };
   onClose: () => void;
 }

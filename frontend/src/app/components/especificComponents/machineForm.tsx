@@ -3,7 +3,7 @@ import Modal from '../interfaceComponents/modal';
 import Form from '../interfaceComponents/form';
 import DatePicker from '../interfaceComponents/datePicker';
 import FileUpload from '../interfaceComponents/fileUpload';
-import { Machine } from '../../machines/types';
+import { Machine } from '../../pages/machines/types';
 
 interface MachineFormProps {
   isOpen: boolean;
