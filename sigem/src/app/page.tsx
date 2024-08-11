@@ -1,4 +1,4 @@
-// app/page.tsx (Página inicial)
+// index.tsx (Página inicial)
 export default function HomePage() {
   return (
     <div>

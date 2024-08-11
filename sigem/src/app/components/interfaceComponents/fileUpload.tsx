@@ -1,14 +1,16 @@
+// FileUpload.tsx
 import React from 'react';
 
 interface FileUploadProps {
   label: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
+  width?: string; // Adicionar largura ajustável
 }
 
-const FileUpload: React.FC<FileUploadProps> = ({ label, onChange, className = '' }) => {
+const FileUpload: React.FC<FileUploadProps> = ({ label, onChange, className = '', width }) => {
   return (
-    <div className={`mb-4 ${className}`}>
+    <div className={`mb-4 ${className}`} style={{ width }}>
       <label className="block text-gray-700">{label}</label>
       <input
         type="file"

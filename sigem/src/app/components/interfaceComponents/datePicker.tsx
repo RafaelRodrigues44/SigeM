@@ -1,3 +1,4 @@
+// DatePicker.tsx
 import React from 'react';
 
 interface DatePickerProps {
@@ -5,11 +6,12 @@ interface DatePickerProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
+  width?: string; // Adicionar largura ajustável
 }
 
-const DatePicker: React.FC<DatePickerProps> = ({ label, value, onChange, className = '' }) => {
+const DatePicker: React.FC<DatePickerProps> = ({ label, value, onChange, className = '', width }) => {
   return (
-    <div className={`mb-4 ${className}`}>
+    <div className={`mb-4 ${className}`} style={{ width }}>
       <label className="block text-gray-700">{label}</label>
       <input
         type="date"
