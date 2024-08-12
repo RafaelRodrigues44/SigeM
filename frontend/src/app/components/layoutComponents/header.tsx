@@ -46,17 +46,17 @@ const Header: React.FC = () => {
       <div className="flex items-center space-x-4">
         {/* Ícone da empresa */}
         <div style={{ marginTop: '10px' }}> 
-          <Image src="/sigem.svg" alt="Logo" width={170} height={170} />
+          <Image src="/sigem.svg" alt="Logo" width={150} height={150} />
         </div>
       </div>
 
       <div className="flex items-center space-x-4">
         {/* Botão para voltar para a página inicial */}
         <ImageButton 
-          svg={<HomeIcon width={20} height={20} />} // Ajuste o tamanho conforme necessário
+          svg={<HomeIcon width={20} height={20} />} 
           onClick={handleGoHome} 
           color="#88898a" 
-          marginLeft={10} // Adiciona uma margem à esquerda do botão, se necessário
+          marginLeft={10} 
         />
 
         {/* Foto do usuário e card de informações */}

@@ -47,10 +47,10 @@ const StockForm: React.FC<StockFormProps> = ({
       isOpen={isOpen} 
       onClose={onClose} 
       width="500px"
-      height="500px" // Adjust height as needed
+      height="420px" 
     >
       <div className="flex flex-col h-full">
-        <h2 className="text-xl font-bold mb-4">{mode === 'create' ? 'Add Stock Item' : 'Edit Stock Item'}</h2>
+        <h2 className="text-xl font-bold mb-4">{mode === 'create' ? 'Adicionar Item' : 'Editar Item'}</h2>
         <Form onSubmit={handleSubmit} className="flex-1" width="100%" height="100%">
           <label>
             Nome:
