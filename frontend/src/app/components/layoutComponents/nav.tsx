@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { FaCogs, FaTools, FaBoxes, FaUsers, FaChartLine, FaUser, FaBars, FaTachometerAlt } from 'react-icons/fa';
+import { FaCogs, FaTools, FaBoxes, FaAddressBook, FaChartLine, FaUser, FaBars, FaTachometerAlt, FaUsers } from 'react-icons/fa';
 
 const Nav: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -40,7 +40,13 @@ const Nav: React.FC = () => {
           </Link>
         </li>
         <li className="flex items-center hover:bg-gray-700 p-2 rounded">
-          <Link href="/teams" className="flex items-center">
+          <Link href="/pages/collaborator" className="flex items-center">
+            <FaAddressBook size={24} />
+            {isExpanded && <span className="ml-3">Colaboradores</span>}
+          </Link>
+        </li>
+        <li className="flex items-center hover:bg-gray-700 p-2 rounded">
+          <Link href="/pages/teams" className="flex items-center">
             <FaUsers size={24} />
             {isExpanded && <span className="ml-3">Equipes</span>}
           </Link>
