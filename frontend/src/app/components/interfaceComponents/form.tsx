@@ -14,7 +14,7 @@ const Form: React.FC<FormProps> = ({ onSubmit, children, className = '', width, 
     <form
       onSubmit={onSubmit}
       className={`space-y-4 ${className}`}
-      style={{ width, height }} // Aplicar largura e altura aqui
+      style={{ width, height }} 
     >
       {children}
     </form>

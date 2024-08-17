@@ -52,13 +52,12 @@ const MachineForm: React.FC<MachineFormProps> = ({
     <Modal 
       isOpen={isOpen} 
       onClose={onClose} 
-      width="500px"
-      height="580px"
+      className="max-w-full md:max-w-3xl lg:max-w-4xl xl:max-w-5xl"
     >
-      <div className="flex flex-col h-full">
-        <h2 className="text-xl font-bold mb-4">{mode === 'create' ? 'Adicionar Máquinas' : 'Editar Máquinas'}</h2>
-        <Form onSubmit={handleSubmit} className="flex-1" width="100%" height="100%">
-          <label>
+      <div className="flex flex-col h-full p-4">
+        <h2 className="text-xl font-bold mb-2">{mode === 'create' ? 'Adicionar Máquinas' : 'Editar Máquinas'}</h2>
+        <Form onSubmit={handleSubmit} className="flex-1 flex flex-col gap-1">
+          <label className="flex flex-col">
             Nome:
             <input
               type="text"
@@ -67,7 +66,7 @@ const MachineForm: React.FC<MachineFormProps> = ({
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
             />
           </label>
-          <label>
+          <label className="flex flex-col">
             Tipo:
             <input
               type="text"
@@ -76,7 +75,7 @@ const MachineForm: React.FC<MachineFormProps> = ({
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
             />
           </label>
-          <label>
+          <label className="flex flex-col">
             Modelo:
             <input
               type="text"
@@ -85,8 +84,8 @@ const MachineForm: React.FC<MachineFormProps> = ({
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
             />
           </label>
-          <DatePicker label="Data de Fabricação" value={manufacturingDate} onChange={(e) => setManufacturingDate(e.target.value)} width="100%" />
-          <label>
+          <DatePicker label="Data de Fabricação" value={manufacturingDate} onChange={(e) => setManufacturingDate(e.target.value)} width="full" />
+          <label className="flex flex-col">
             Número de Série:
             <input
               type="text"
@@ -95,7 +94,7 @@ const MachineForm: React.FC<MachineFormProps> = ({
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
             />
           </label>
-          <label>
+          <label className="flex flex-col">
             Localização:
             <input
               type="text"
@@ -104,9 +103,9 @@ const MachineForm: React.FC<MachineFormProps> = ({
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
             />
           </label>
-          <FileUpload label="Imagem" onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} width="100%" />
-          <div className="flex justify-end mt-4">
-            <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md mr-2">Salvar</button>
+          <FileUpload label="Imagem" onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} width="full" />
+          <div className="flex justify-end mt-2 gap-2">
+            <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md">Salvar</button>
             <button type="button" onClick={onClose} className="px-4 py-2 bg-gray-500 text-white rounded-md">Cancelar</button>
           </div>
         </Form>
