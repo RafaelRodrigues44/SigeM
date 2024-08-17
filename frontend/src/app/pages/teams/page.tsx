@@ -6,7 +6,7 @@ import SearchBar from '../../components/interfaceComponents/searchBar';
 import Modal from '../../components/interfaceComponents/modal';
 import TeamForm from '../../components/especificComponents/teamForm';
 import Button from '../../components/interfaceComponents/button';
-import Notification from '../../components/interfaceComponents/notification';
+import Notification from '../../components/interfaceComponents/customNotification.tsx';
 import { Team, Collaborator } from '../collaborator/types'; 
 import { mockTeams } from './mockData'; 
 import TeamDetail from '../../components/especificComponents/teamDetail';

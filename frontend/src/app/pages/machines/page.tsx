@@ -6,7 +6,7 @@ import SearchBar from '../../components/interfaceComponents/searchBar';
 import Modal from '../../components/interfaceComponents/modal';
 import MachineForm from '../../components/especificComponents/machineForm';
 import Button from '../../components/interfaceComponents/button';
-import Notification from '../../components/interfaceComponents/notification';
+import Notification from '../../components/interfaceComponents/customNotification.tsx';
 import { Machine } from './types';
 
 const MachinesPage: React.FC = () => {

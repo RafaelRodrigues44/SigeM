@@ -8,7 +8,7 @@ import SearchBar from '../../components/interfaceComponents/searchBar';
 import Modal from '../../components/interfaceComponents/modal';
 import CollaboratorForm from '../../components/especificComponents/collaboratorForm';
 import Button from '../../components/interfaceComponents/button';
-import Notification from '../../components/interfaceComponents/notification';
+import Notification from '../../components/interfaceComponents/customNotification.tsx';
 import { Collaborator } from './types'; 
 import { mockCollaborators } from './mockData';
 import { generateReportContent } from '../../utils/reportUtils'; 

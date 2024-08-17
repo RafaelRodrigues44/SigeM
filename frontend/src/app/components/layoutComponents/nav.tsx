@@ -28,7 +28,7 @@ const Nav: React.FC = () => {
           </Link>
         </li>
         <li className="flex items-center hover:bg-gray-700 p-2 rounded">
-          <Link href="/maintenance" className="flex items-center">
+          <Link href="/pages/maintenance" className="flex items-center">
             <FaTools size={24} />
             {isExpanded && <span className="ml-3">Manutenções</span>}
           </Link>
