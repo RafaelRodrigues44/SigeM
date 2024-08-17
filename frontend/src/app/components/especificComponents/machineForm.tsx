@@ -3,7 +3,7 @@ import Modal from '../interfaceComponents/modal';
 import Form from '../interfaceComponents/form';
 import DatePicker from '../interfaceComponents/datePicker';
 import FileUpload from '../interfaceComponents/fileUpload';
-import { Machine } from '../../machines/types';
+import { Machine } from '../../pages/machines/types';
 
 interface MachineFormProps {
   isOpen: boolean;
@@ -53,10 +53,10 @@ const MachineForm: React.FC<MachineFormProps> = ({
       isOpen={isOpen} 
       onClose={onClose} 
       width="500px"
-      height="650px"
+      height="580px"
     >
       <div className="flex flex-col h-full">
-        <h2 className="text-xl font-bold mb-4">{mode === 'create' ? 'Add Machine' : 'Edit Machine'}</h2>
+        <h2 className="text-xl font-bold mb-4">{mode === 'create' ? 'Adicionar Máquinas' : 'Editar Máquinas'}</h2>
         <Form onSubmit={handleSubmit} className="flex-1" width="100%" height="100%">
           <label>
             Nome:

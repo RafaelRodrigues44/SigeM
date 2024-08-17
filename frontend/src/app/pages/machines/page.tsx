@@ -1,13 +1,13 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Table from '../components/interfaceComponents/table';
-import SearchBar from '../components/interfaceComponents/searchBar';
-import Modal from '../components/interfaceComponents/modal';
-import MachineForm from '../components/especificComponents/machineForm';
-import Button from '../components/interfaceComponents/button';
-import Notification from '../components/interfaceComponents/notification';
-import { Machine } from '../machines/types';
+import Table from '../../components/interfaceComponents/table';
+import SearchBar from '../../components/interfaceComponents/searchBar';
+import Modal from '../../components/interfaceComponents/modal';
+import MachineForm from '../../components/especificComponents/machineForm';
+import Button from '../../components/interfaceComponents/button';
+import Notification from '../../components/interfaceComponents/notification';
+import { Machine } from './types';
 
 const MachinesPage: React.FC = () => {
   const [machines, setMachines] = useState<Machine[]>([]);
@@ -112,17 +112,17 @@ const MachinesPage: React.FC = () => {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-4">
-        <Button label="Add Machine" onClick={handleCreate} />
+        <Button label="Adicionar Máquina" onClick={handleCreate} />
         <SearchBar 
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onSubmit={handleSearch}
-          placeholder="Search machines"
+          placeholder="Procurar Máquinas"
         />
       </div>
 
       <Table 
-        columns={['Name', 'Type', 'Model', 'Actions']}
+        columns={['Nome', 'Tipo', 'Modelo', 'Ações']}
         data={filteredMachines}
         renderRow={(machine) => (
           <>
@@ -130,8 +130,8 @@ const MachinesPage: React.FC = () => {
             <td className="p-2">{machine.type}</td>
             <td className="p-2">{machine.model}</td>
             <td className="p-2">
-              <Button label="Edit" onClick={() => handleEdit(machine)} />
-              <Button label="Delete" onClick={() => handleDelete(machine.id)} />
+              <Button label="Editar" onClick={() => handleEdit(machine)} />
+              <Button label="Deletar" onClick={() => handleDelete(machine.id)} />
             </td>
           </>
         )}

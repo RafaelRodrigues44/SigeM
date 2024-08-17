@@ -1,5 +1,5 @@
 import React from 'react';
-import { Machine } from '../../machines/types'; 
+import { Machine } from '../../pages/machines/types'; 
 
 interface MachineListProps {
   machines: Machine[];

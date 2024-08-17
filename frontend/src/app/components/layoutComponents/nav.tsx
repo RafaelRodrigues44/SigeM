@@ -22,7 +22,7 @@ const Nav: React.FC = () => {
       </button>
       <ul className="flex flex-col space-y-2 overflow-hidden">
         <li className="flex items-center hover:bg-gray-700 p-2 rounded">
-          <Link href="/machines" className="flex items-center">
+          <Link href="/pages/machines" className="flex items-center">
             <FaCogs size={24} />
             {isExpanded && <span className="ml-3">Máquinas</span>}
           </Link>
@@ -34,7 +34,7 @@ const Nav: React.FC = () => {
           </Link>
         </li>
         <li className="flex items-center hover:bg-gray-700 p-2 rounded">
-          <Link href="/inventory" className="flex items-center">
+          <Link href="/pages/stock" className="flex items-center">
             <FaBoxes size={24} />
             {isExpanded && <span className="ml-3">Estoque</span>}
           </Link>
