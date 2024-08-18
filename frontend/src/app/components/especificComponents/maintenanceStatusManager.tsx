@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Modal from '../interfaceComponents/modal';
-import Notification from '../interfaceComponents/customNotification.tsx';
+import Notification from '../interfaceComponents/customNotification';
 
 interface MaintenanceStatusManagerProps {
   maintenance: any;

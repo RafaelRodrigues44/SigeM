@@ -7,10 +7,7 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-gray-800 text-white p-4">
       <div className="container mx-auto flex flex-col items-center">
-        <div className="flex flex-col md:flex-row items-center justify-between w-full max-w-screen-md">
-          <p className="text-xs mb-2 md:mb-0 text-center">
-            &copy; 2024 SIGeM. Todos os direitos reservados.
-          </p>
+        <div className="flex flex-col md:flex-row justify-center w-full max-w-screen-md">
           <ul className="flex space-x-4 text-xs mb-2 md:mb-0">
             <li>
               <Link href="/about" className="hover:text-gray-400">

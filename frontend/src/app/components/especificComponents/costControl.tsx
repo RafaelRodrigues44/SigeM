@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import Modal from '../../components/interfaceComponents/modal';
 import Table from '../../components/interfaceComponents/table';
@@ -44,7 +46,7 @@ const CostControlModal: React.FC<CostControlModalProps> = ({ isOpen, onClose, on
   };
 
   const calculateTotal = (items: StockItem[]): number => {
-    return items.reduce((total, item) => total + item.unitPrice, 0);
+    return items.reduce((total, item) => total + item.unitPrice * item.quantity, 0);
   };
 
   return (
@@ -54,19 +56,23 @@ const CostControlModal: React.FC<CostControlModalProps> = ({ isOpen, onClose, on
           onClick={onClose}
           className="absolute top-2 right-2 px-2 py-1 bg-gray-500 text-white rounded-md"
         >
-          Cancelar
+          Fechar
         </button>
         <h2 className="text-xl font-bold mb-4">Controle de Custos</h2>
         <div className="flex flex-col space-y-4">
           <div>
             <h3 className="text-lg font-semibold mb-2">Itens</h3>
             <Table
-              columns={['Nome', 'Preço Unitário', 'Ações']}
+              columns={['Nome', 'Código', 'Fornecedor', 'Quantidade', 'Preço Unitário', 'Total', 'Ações']}
               data={items}
               renderRow={(item: StockItem, index: number) => (
                 <>
                   <td className="p-2">{item.name}</td>
+                  <td className="p-2">{item.code}</td>
+                  <td className="p-2">{item.supplier}</td>
+                  <td className="p-2">{item.quantity}</td>
                   <td className="p-2">{item.unitPrice}</td>
+                  <td className="p-2">{item.unitPrice * item.quantity}</td>
                   <td className="p-2">
                     <button
                       onClick={() => setEditItem(item)}
@@ -86,7 +92,7 @@ const CostControlModal: React.FC<CostControlModalProps> = ({ isOpen, onClose, on
             </button>
           </div>
           <div className="mt-4">
-            <strong>Total:</strong> {calculateTotal(items)}
+            <strong>Total:</strong> {calculateTotal(items).toFixed(2)}
           </div>
         </div>
 

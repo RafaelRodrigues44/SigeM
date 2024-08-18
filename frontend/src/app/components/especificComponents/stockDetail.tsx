@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import jsPDF from 'jspdf'; 
 import saveAs  from 'file-saver';
 import Modal from '../interfaceComponents/modal'; 
-import Notification from '../interfaceComponents/customNotification.tsx'; 
+import Notification from '../interfaceComponents/customNotification'; 
 import Table from '../interfaceComponents/table'; 
 
 interface Part {

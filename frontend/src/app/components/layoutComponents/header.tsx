@@ -2,68 +2,54 @@
 
 import React from 'react';
 import Image from 'next/image';
-import Avatar from '../interfaceComponents/avatar'; 
-import ImageButton from '../interfaceComponents/imageButton'; 
-import { useRouter } from 'next/navigation'; 
-
-const HomeIcon: React.FC<{ width: number; height: number; style?: React.CSSProperties }> = ({ width, height, style }) => (
-  <svg
-    width={width}
-    height={height}
-    viewBox="0 0 29 29"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    style={style}
-  >
-    <path
-      d="M12 3L2 12H5V21H11V15H13V21H19V12H22L12 3Z"
-      fill="currentColor" 
-    />
-  </svg>
-);
+import Avatar from '../interfaceComponents/avatar';
+import { useRouter } from 'next/navigation';
+import HomeIcon from '@mui/icons-material/Home';
 
 const Header: React.FC = () => {
-  const router = useRouter(); 
+  const router = useRouter();
 
   const handleGoHome = () => {
-    router.push('/'); 
+    router.push('/');
   };
 
   const user = {
     name: 'João da Silva',
     position: 'Analista de Sistemas',
-    avatarUrl: 'https://i.pinimg.com/474x/2e/4f/d3/2e4fd3fd8f2aff9c26b15c1f1c23b11e.jpg', 
+    avatarUrl: 'https://i.pinimg.com/474x/2e/4f/d3/2e4fd3fd8f2aff9c26b15c1f1c23b11e.jpg',
   };
 
   return (
     <header
-      className="text-white p-4 flex justify-between items-center"
-      style={{ 
-        maxHeight: '65px', 
-        backgroundColor: '#031821' 
+      className="text-white p-4 flex justify-between items-center shadow-md"
+      style={{
+        maxHeight: '65px',
+        background: 'linear-gradient(135deg, #031821, #092c45)',
       }}
     >
       <div className="flex items-center space-x-4">
         {/* Ícone da empresa */}
-        <div style={{ marginTop: '10px' }}> 
-          <Image src="/sigem.svg" alt="Logo" width={150} height={150} />
+        <div>
+          <Image src="/sigem.svg" alt="Logo" width={120} height={120} />
         </div>
       </div>
 
       <div className="flex items-center space-x-4">
         {/* Botão para voltar para a página inicial */}
-        <ImageButton 
-          svg={<HomeIcon width={20} height={20} />} 
-          onClick={handleGoHome} 
-          color="#88898a" 
-          marginLeft={10} 
-        />
+        <button
+          onClick={handleGoHome}
+          className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
+        >
+          <HomeIcon className="w-6 h-6 text-gray-400 hover:text-white" />
+        </button>
 
         {/* Foto do usuário e card de informações */}
-        <Avatar src={user.avatarUrl} alt={user.name} size={50} />
-        <div className="flex flex-col">
-          <span className="text-sm font-bold">{user.name}</span>
-          <span className="text-xs">{user.position}</span>
+        <div className="flex items-center space-x-3">
+          <Avatar src={user.avatarUrl} alt={user.name} size={40} className="border-2 border-white" />
+          <div className="flex flex-col text-sm">
+            <span className="font-bold">{user.name}</span>
+            <span className="text-xs text-gray-300">{user.position}</span>
+          </div>
         </div>
       </div>
     </header>

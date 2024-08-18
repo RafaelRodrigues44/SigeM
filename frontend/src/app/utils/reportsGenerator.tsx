@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Modal from '../components/interfaceComponents/modal';
-import Notification from '../components/interfaceComponents/customNotification.tsx';
+import Notification from '../components/interfaceComponents/customNotification';
 
 interface ReportsGeneratorProps {
   onGenerate: (reportType: string) => void;

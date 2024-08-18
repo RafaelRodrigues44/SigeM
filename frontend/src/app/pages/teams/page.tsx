@@ -6,7 +6,7 @@ import SearchBar from '../../components/interfaceComponents/searchBar';
 import Modal from '../../components/interfaceComponents/modal';
 import TeamForm from '../../components/especificComponents/teamForm';
 import Button from '../../components/interfaceComponents/button';
-import Notification from '../../components/interfaceComponents/customNotification.tsx';
+import Notification from '../../components/interfaceComponents/customNotification';
 import { Team, Collaborator } from '../collaborator/types'; 
 import { mockTeams } from './mockData'; 
 import TeamDetail from '../../components/especificComponents/teamDetail';
@@ -152,7 +152,7 @@ const TeamPage: React.FC = () => {
         />
       </Modal>
 
-      <Modal isOpen={isDetailOpen} onClose={handleCloseDetailModal} width="800px" height="600px">
+      <Modal isOpen={isDetailOpen} onClose={handleCloseDetailModal} width="800px" height="auto">
         <TeamDetail
           team={selectedTeam}
           collaborators={collaborators}

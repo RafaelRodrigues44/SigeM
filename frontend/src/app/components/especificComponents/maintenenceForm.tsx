@@ -1,25 +1,43 @@
 import React, { useState } from 'react';
 import Modal from '../interfaceComponents/modal';
-import Notification from '../interfaceComponents/customNotification.tsx';
+import Notification from '../interfaceComponents/customNotification';
 import ItemSelectionModal from '../especificComponents/itemSelectionModal'; 
+import ServiceSelectionModal from '../especificComponents/serviceSelectionModal'; 
+import MachineSelectionModal from '../especificComponents/machineSelectionModal'; 
 import { StockItem } from '../../pages/stock/types'; 
+import { Machine } from '../../pages/machines/types';
+
+
+export interface Service {
+  id: string; 
+  name: string;
+  description?: string;
+  price?: number;
+  duration?: number;
+}
 
 interface MaintenanceFormProps {
   onSave: (maintenance: any) => void;
   onClose: () => void;
-  stockItems: StockItem[]; 
+  stockItems: StockItem[];
+  services: Service[];
+  machines: Machine[];
 }
 
-const MaintenanceForm: React.FC<MaintenanceFormProps> = ({ onSave, onClose, stockItems }) => {
+const MaintenanceForm: React.FC<MaintenanceFormProps> = ({ onSave, onClose, stockItems, services, machines }) => {
   const [description, setDescription] = useState<string>('');
   const [date, setDate] = useState<string>(new Date().toISOString().substring(0, 10));
   const [priority, setPriority] = useState<string>('Baixa');
   const [responsible, setResponsible] = useState<string>('');
-  const [maintenanceType, setMaintenanceType] = useState<'Preventiva' | 'Corretiva'>('Preventiva'); // Alterado para selecionar entre Preventiva e Corretiva
+  const [maintenanceType, setMaintenanceType] = useState<'Preventiva' | 'Corretiva'>('Preventiva');
   const [files, setFiles] = useState<File[]>([]);
   const [comments, setComments] = useState<string>('');
   const [selectedItems, setSelectedItems] = useState<StockItem[]>([]); 
-  const [showItemModal, setShowItemModal] = useState<boolean>(false); 
+  const [selectedServices, setSelectedServices] = useState<Service[]>([]);
+  const [selectedMachine, setSelectedMachine] = useState<Machine | null>(null);
+  const [showItemModal, setShowItemModal] = useState<boolean>(false);
+  const [showServiceModal, setShowServiceModal] = useState<boolean>(false);
+  const [showMachineModal, setShowMachineModal] = useState<boolean>(false);
   const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' | 'info'; } | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,11 +47,24 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({ onSave, onClose, stoc
   };
 
   const handleItemSelect = (item: StockItem) => {
-    if (selectedItems.find(selectedItem => selectedItem.id === item.id)) {
-      setSelectedItems(selectedItems.filter(selectedItem => selectedItem.id !== item.id));
-    } else {
-      setSelectedItems([...selectedItems, item]);
-    }
+    setSelectedItems(prevItems =>
+      prevItems.find(selectedItem => selectedItem.id === item.id)
+        ? prevItems.filter(selectedItem => selectedItem.id !== item.id)
+        : [...prevItems, item]
+    );
+  };
+
+  const handleServiceSelect = (service: Service) => {
+    setSelectedServices(prevServices =>
+      prevServices.find(selectedService => selectedService.id === service.id)
+        ? prevServices.filter(selectedService => selectedService.id !== service.id)
+        : [...prevServices, service]
+    );
+  };
+
+  const handleMachineSelect = (machine: Machine) => {
+    setSelectedMachine(machine);
+    setShowMachineModal(false); 
   };
 
   const handleSave = () => {
@@ -42,10 +73,12 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({ onSave, onClose, stoc
       date,
       priority,
       responsible,
-      type: maintenanceType, // Inclui o tipo de manutenção
+      type: maintenanceType,
       files,
       comments,
-      items: selectedItems, 
+      items: selectedItems,
+      services: selectedServices,
+      machine: selectedMachine,
     };
     onSave(maintenance);
   };
@@ -65,81 +98,117 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({ onSave, onClose, stoc
           )}
 
           <h2 className="text-2xl font-bold mb-4">Cadastro de Manutenção</h2>
-          <label className="block mb-2">
-            Data da Solicitação:
-            <input
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-            />
-          </label>
-          <label className="block mb-2">
-            Prioridade:
-            <select
-              value={priority}
-              onChange={(e) => setPriority(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+
+          {/* Container de duas colunas */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block mb-2">
+                Data da Solicitação:
+                <input
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                />
+              </label>
+              <label className="block mb-2">
+                Prioridade:
+                <select
+                  value={priority}
+                  onChange={(e) => setPriority(e.target.value)}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                >
+                  <option value="Baixa">Baixa</option>
+                  <option value="Média">Média</option>
+                  <option value="Alta">Alta</option>
+                </select>
+              </label>
+              <label className="block mb-2">
+                Equipe Responsável:
+                <input
+                  type="text"
+                  value={responsible}
+                  onChange={(e) => setResponsible(e.target.value)}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                />
+              </label>
+              <label className="block mb-2">
+                Tipo de Manutenção:
+                <select
+                  value={maintenanceType}
+                  onChange={(e) => setMaintenanceType(e.target.value as 'Preventiva' | 'Corretiva')}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                >
+                  <option value="Preventiva">Preventiva</option>
+                  <option value="Corretiva">Corretiva</option>
+                </select>
+              </label>
+            </div>
+            <div>
+              <label className="block mb-2">
+                Descrição do Problema:
+                <textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+                />
+              </label>
+              <label className="block mb-2 mt-4">
+                Arquivos:
+                <input
+                  type="file"
+                  multiple
+                  onChange={handleFileChange}
+                  className="mt-1 block w-full"
+                />
+              </label>
+            </div>
+          </div>
+
+          <div className="mt-4">
+            <button
+              onClick={() => setShowMachineModal(true)}
+              className="px-4 py-2 bg-blue-950 text-white rounded-md mr-4"
             >
-              <option value="Baixa">Baixa</option>
-              <option value="Média">Média</option>
-              <option value="Alta">Alta</option>
-            </select>
-          </label>
-          <label className="block mb-2">
-            Equipe Responsável:
-            <input
-              type="text"
-              value={responsible}
-              onChange={(e) => setResponsible(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-            />
-          </label>
-          <label className="block mb-2">
-            Tipo de Manutenção:
-            <select
-              value={maintenanceType}
-              onChange={(e) => setMaintenanceType(e.target.value as 'Preventiva' | 'Corretiva')}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-            >
-              <option value="Preventiva">Preventiva</option>
-              <option value="Corretiva">Corretiva</option>
-            </select>
-          </label>
-          <label className="block mb-2">
-            Descrição do Problema:
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
-            />
-          </label>
-          <div className="mt-4 flex justify-between items-center">
+              {selectedMachine ? selectedMachine.name : 'Selecionar Máquina'}
+            </button>
             <button
               onClick={() => setShowItemModal(true)}
+              className="px-4 py-2 bg-blue-950 text-white rounded-md mr-4"
+            >
+              Selecionar Itens
+            </button>
+            <button
+              onClick={() => setShowServiceModal(true)}
               className="px-4 py-2 bg-blue-950 text-white rounded-md"
             >
-              Adicionar Itens
+              Selecionar Serviços
             </button>
           </div>
-          <ul className="mt-2">
-            {selectedItems.map(item => (
-              <li key={item.id} className="border p-2 mb-2">{item.name}</li>
-            ))}
-          </ul>
-          <label className="block mb-2 mt-4">
-            Arquivos:
-            <input
-              type="file"
-              multiple
-              onChange={handleFileChange}
-              className="mt-1 block w-full"
-            />
-          </label>
-          <div className="flex justify-end mt-4">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            <ul>
+              <li className="font-bold">Itens Selecionados:</li>
+              <ul className="mt-2">
+                {selectedItems.map(item => (
+                  <li key={item.id} className="border p-2 mb-2">{item.name}</li>
+                ))}
+              </ul>
+            </ul>
+            <ul>
+              <li className="font-bold">Serviços Selecionados:</li>
+              <ul className="mt-2">
+                {selectedServices.map(service => (
+                  <li key={service.id} className="border p-2 mb-2">{service.name}</li>
+                ))}
+              </ul>
+            </ul>
+          </div>
+
+          <div className="mt-4 flex justify-end">
             <button
               onClick={handleSave}
-              className="px-4 py-2 bg-blue-950 text-white rounded-md mr-2"
+              className="px-4 py-2 bg-blue-950 text-white rounded-md mr-4"
             >
               Salvar
             </button>
@@ -153,13 +222,30 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({ onSave, onClose, stoc
         </div>
       </Modal>
 
-      {/* Modal para seleção de itens */}
       <ItemSelectionModal
-        isOpen={showItemModal}
-        onClose={() => setShowItemModal(false)}
         stockItems={stockItems}
-        selectedItems={selectedItems}
+        selectedItems={selectedItems} 
         onSelectItem={handleItemSelect}
+        onClose={() => setShowItemModal(false)}
+        isOpen={showItemModal}
+      />
+
+      {/* Modal para seleção de serviços */}
+      <ServiceSelectionModal
+        isOpen={showServiceModal}
+        onClose={() => setShowServiceModal(false)}
+        services={services}
+        selectedServices={selectedServices}
+        onSelectService={handleServiceSelect}
+      />
+
+      {/* Modal para seleção de máquinas */}
+      <MachineSelectionModal
+        isOpen={showMachineModal}
+        onClose={() => setShowMachineModal(false)}
+        machines={machines}
+        selectedMachine={selectedMachine}
+        onSelectMachine={handleMachineSelect}
       />
     </>
   );
