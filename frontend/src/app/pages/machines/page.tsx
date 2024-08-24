@@ -7,7 +7,9 @@ import Modal from '../../components/interfaceComponents/modal';
 import MachineForm from '../../components/especificComponents/machineForm';
 import Button from '../../components/interfaceComponents/button';
 import Notification from '../../components/interfaceComponents/customNotification';
+import MachineDetail from '../../components/especificComponents/machineDetail'; 
 import { Machine } from './types';
+import { mockMachines } from './mockData';  
 
 const MachinesPage: React.FC = () => {
   const [machines, setMachines] = useState<Machine[]>([]);
@@ -17,16 +19,11 @@ const MachinesPage: React.FC = () => {
   const [formMode, setFormMode] = useState<'create' | 'edit'>('create');
   const [selectedMachine, setSelectedMachine] = useState<Machine | null>(null);
   const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
+  const [isDetailOpen, setDetailOpen] = useState(false); // Novo estado para controlar o modal de detalhes
 
   useEffect(() => {
-    // Fetch machines from API
-    fetch('/api/machines')
-      .then(response => response.json())
-      .then(data => {
-        setMachines(data);
-        setFilteredMachines(data);
-      })
-      .catch(error => console.error('Error fetching machines:', error));
+    setMachines(mockMachines);
+    setFilteredMachines(mockMachines);
   }, []);
 
   const handleSearch = () => {
@@ -39,52 +36,37 @@ const MachinesPage: React.FC = () => {
   const handleSave = async (machine: Omit<Machine, 'id' | 'maintenanceHistory'> & { image: File | null }) => {
     try {
       if (formMode === 'create') {
-        const response = await fetch('/api/machines', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ 
-            ...machine, 
-            maintenanceHistory: [] 
-          }),
-        });
-        const newMachine = await response.json();
-        setMachines([...machines, newMachine]); 
-        setNotification({ message: 'Machine added successfully!', type: 'success' });
+        const newMachine = {
+          ...machine,
+          id: machines.length + 1, // Mock new ID
+          maintenanceHistory: []
+        };
+        setMachines([...machines, newMachine]);
+        setNotification({ message: 'Máquina adicionada com sucesso!', type: 'success' });
       } else if (selectedMachine) {
-        await fetch(`/api/machines/${selectedMachine.id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ 
-            ...machine, 
-            id: selectedMachine.id, 
-            maintenanceHistory: selectedMachine.maintenanceHistory 
-          }),
-        });
-        setMachines(machines.map(m => m.id === selectedMachine.id ? { ...machine, id: selectedMachine.id, maintenanceHistory: selectedMachine.maintenanceHistory } : m));
-        setNotification({ message: 'Machine updated successfully!', type: 'success' });
+        const updatedMachine = {
+          ...machine,
+          id: selectedMachine.id,
+          maintenanceHistory: selectedMachine.maintenanceHistory
+        };
+        setMachines(machines.map(m => m.id === selectedMachine.id ? updatedMachine : m));
+        setNotification({ message: 'Máquina atualizada com sucesso!', type: 'success' });
       }
       setFormOpen(false);
       setSelectedMachine(null);
     } catch (error) {
       console.error('Error saving machine:', error);
-      setNotification({ message: 'Error saving machine!', type: 'error' });
+      setNotification({ message: 'Erro ao salvar máquina!', type: 'error' });
     }
   };
 
   const handleDelete = async (id: number) => {
     try {
-      await fetch(`/api/machines/${id}`, {
-        method: 'DELETE',
-      });
       setMachines(machines.filter(machine => machine.id !== id));
-      setNotification({ message: 'Machine deleted successfully!', type: 'success' });
+      setNotification({ message: 'Máquina excluída com sucesso!', type: 'success' });
     } catch (error) {
       console.error('Error deleting machine:', error);
-      setNotification({ message: 'Error deleting machine!', type: 'error' });
+      setNotification({ message: 'Erro ao excluir máquina!', type: 'error' });
     }
   };
 
@@ -109,6 +91,16 @@ const MachinesPage: React.FC = () => {
     setNotification(null);
   };
 
+  const handleDetail = (machine: Machine) => {
+    setSelectedMachine(machine);
+    setDetailOpen(true);
+  };
+
+  const handleCloseDetailModal = () => {
+    setDetailOpen(false);
+    setSelectedMachine(null);
+  };
+
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-4">
@@ -130,8 +122,9 @@ const MachinesPage: React.FC = () => {
             <td className="p-2">{machine.type}</td>
             <td className="p-2">{machine.model}</td>
             <td className="p-2">
-              <Button label="Editar" onClick={() => handleEdit(machine)} />
-              <Button label="Deletar" onClick={() => handleDelete(machine.id)} />
+              <Button className='mr-4' label="Editar" onClick={() => handleEdit(machine)} />
+              <Button className='mr-4' label="Deletar" onClick={() => handleDelete(machine.id)} />
+              <Button label='Detalhar' onClick={() => handleDetail(machine)} />
             </td>
           </>
         )}
@@ -162,6 +155,15 @@ const MachinesPage: React.FC = () => {
           mode={formMode}
         />
       </Modal>
+
+      {selectedMachine && (
+        <Modal isOpen={isDetailOpen} onClose={handleCloseDetailModal}>
+          <MachineDetail
+            machine={selectedMachine}
+            onClose={handleCloseDetailModal}
+          />
+        </Modal>
+      )}
     </div>
   );
 };

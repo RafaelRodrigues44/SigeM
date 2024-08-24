@@ -40,7 +40,7 @@ const Nav: React.FC = () => {
           </Link>
         </li>
         <li className="flex items-center hover:bg-gray-700 p-2 rounded">
-          <Link href="/pages/services" className="flex items-center"> {/* Novo item para Serviços */}
+          <Link href="/pages/services" className="flex items-center"> 
             <FaBriefcase size={24} />
             {isExpanded && <span className="ml-3">Serviços</span>}
           </Link>
@@ -56,13 +56,7 @@ const Nav: React.FC = () => {
             <FaUsers size={24} />
             {isExpanded && <span className="ml-3">Equipes</span>}
           </Link>
-        </li>
-        <li className="flex items-center hover:bg-gray-700 p-2 rounded">
-          <Link href="/reports" className="flex items-center">
-            <FaChartLine size={24} />
-            {isExpanded && <span className="ml-3">Relatórios</span>}
-          </Link>
-        </li>     
+        </li>   
         <li className="flex items-center hover:bg-gray-700 p-2 rounded">
           <Link href="/pages/suppliers" className="flex items-center">
             <FaPeopleCarry size={24} />
@@ -70,13 +64,13 @@ const Nav: React.FC = () => {
           </Link>
         </li>   
         <li className="flex items-center hover:bg-gray-700 p-2 rounded">
-          <Link href="/admin" className="flex items-center">
+          <Link href="/pages/dashboard" className="flex items-center">
             <FaTachometerAlt size={24} />
             {isExpanded && <span className="ml-3">Dashboard</span>}
           </Link>
         </li>
         <li className="flex items-center hover:bg-gray-700 p-2 rounded">
-          <Link href="/profile" className="flex items-center">
+          <Link href="/pages/profile" className="flex items-center">
             <FaUser size={24} />
             {isExpanded && <span className="ml-3">Perfil</span>}
           </Link>

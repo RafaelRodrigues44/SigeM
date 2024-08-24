@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Modal from '../interfaceComponents/modal';
-import SearchBar from '../interfaceComponents/searchBar'; // Importe o componente SearchBar
-import Table from '../interfaceComponents/table'; // Importe o componente Table
-import { StockItem } from '../../pages/stock/types'; // Importe o tipo StockItem
+import SearchBar from '../interfaceComponents/searchBar'; 
+import Table from '../interfaceComponents/table'; 
+import { StockItem } from '../../pages/stock/types'; 
 
 interface ItemSelectionModalProps {
   isOpen: boolean;
