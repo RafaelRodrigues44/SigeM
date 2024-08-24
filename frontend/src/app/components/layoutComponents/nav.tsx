@@ -2,13 +2,21 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { FaCogs, FaTools, FaBoxes, FaAddressBook, FaChartLine, FaUser, FaBars, FaTachometerAlt, FaUsers, FaPeopleCarry, FaBriefcase } from 'react-icons/fa'; // Importando o ícone para Serviços
+import { FaCogs, FaTools, FaBoxes, FaAddressBook, FaChartLine, FaUser, FaBars, FaTachometerAlt, FaUsers, FaPeopleCarry, FaBriefcase, FaInfoCircle } from 'react-icons/fa';
 
 const Nav: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
 
   const toggleNav = () => {
     setIsExpanded(!isExpanded);
+  };
+
+  const toggleSubmenu = () => {
+    if (!isExpanded) {
+      setIsExpanded(true);
+    }
+    setIsSubmenuOpen(!isSubmenuOpen);
   };
 
   return (
@@ -74,6 +82,40 @@ const Nav: React.FC = () => {
             <FaUser size={24} />
             {isExpanded && <span className="ml-3">Perfil</span>}
           </Link>
+        </li>
+        <li className="flex flex-col">
+          <button 
+            onClick={toggleSubmenu} 
+            className="flex items-center hover:bg-gray-700 p-2 rounded focus:outline-none"
+            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+          >
+            <FaInfoCircle size={24} />
+            {isExpanded && <span className="ml-3">Informações</span>}
+          </button>
+          {isExpanded && isSubmenuOpen && (
+            <ul className="ml-8 flex flex-col space-y-2 mt-2 text-xs">
+              <li className="hover:bg-gray-700 p-2 rounded">
+                <Link href="/about" className="hover:text-gray-400">
+                  Sobre
+                </Link>
+              </li>
+              <li className="hover:bg-gray-700 p-2 rounded">
+                <Link href="/contact" className="hover:text-gray-400">
+                  Help Desk
+                </Link>
+              </li>
+              <li className="hover:bg-gray-700 p-2 rounded">
+                <Link href="/privacy" className="hover:text-gray-400">
+                  Política de Privacidade
+                </Link>
+              </li>
+              <li className="hover:bg-gray-700 p-2 rounded">
+                <Link href="/terms" className="hover:text-gray-400">
+                  Termos de Serviço
+                </Link>
+              </li>
+            </ul>
+          )}
         </li>
       </ul>
     </nav>
