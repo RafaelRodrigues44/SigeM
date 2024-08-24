@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# SIGeM
-
-=======
 # PRD - Product Requirements Document 
 
 ## Introdução & Objetivo
@@ -459,4 +455,3 @@ Com a implementação do Sistema de Gestão de Manutenção (SGM), a empresa nã
 	- Relatórios periódicos de desempenho e uso
 
 Este plano de lançamento garante uma preparação abrangente e organizada para o lançamento bem-sucedido do produto no mercado.
->>>>>>> develop
