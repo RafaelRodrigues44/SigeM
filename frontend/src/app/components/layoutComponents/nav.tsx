@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { FaCogs, FaTools, FaBoxes, FaAddressBook, FaChartLine, FaUser, FaBars, FaTachometerAlt, FaUsers } from 'react-icons/fa';
+import { FaCogs, FaTools, FaBoxes, FaAddressBook, FaChartLine, FaUser, FaBars, FaTachometerAlt, FaUsers, FaPeopleCarry, FaBriefcase } from 'react-icons/fa'; // Importando o ícone para Serviços
 
 const Nav: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -22,21 +22,27 @@ const Nav: React.FC = () => {
       </button>
       <ul className="flex flex-col space-y-2 overflow-hidden">
         <li className="flex items-center hover:bg-gray-700 p-2 rounded">
+          <Link href="/pages/maintenance" className="flex items-center">
+            <FaTools size={24} />
+            {isExpanded && <span className="ml-3">Manutenções</span>}
+          </Link>
+        </li>
+        <li className="flex items-center hover:bg-gray-700 p-2 rounded">
           <Link href="/pages/machines" className="flex items-center">
             <FaCogs size={24} />
             {isExpanded && <span className="ml-3">Máquinas</span>}
           </Link>
         </li>
         <li className="flex items-center hover:bg-gray-700 p-2 rounded">
-          <Link href="/maintenance" className="flex items-center">
-            <FaTools size={24} />
-            {isExpanded && <span className="ml-3">Manutenções</span>}
-          </Link>
-        </li>
-        <li className="flex items-center hover:bg-gray-700 p-2 rounded">
           <Link href="/pages/stock" className="flex items-center">
             <FaBoxes size={24} />
             {isExpanded && <span className="ml-3">Estoque</span>}
+          </Link>
+        </li>
+        <li className="flex items-center hover:bg-gray-700 p-2 rounded">
+          <Link href="/pages/services" className="flex items-center"> 
+            <FaBriefcase size={24} />
+            {isExpanded && <span className="ml-3">Serviços</span>}
           </Link>
         </li>
         <li className="flex items-center hover:bg-gray-700 p-2 rounded">
@@ -50,23 +56,23 @@ const Nav: React.FC = () => {
             <FaUsers size={24} />
             {isExpanded && <span className="ml-3">Equipes</span>}
           </Link>
-        </li>
+        </li>   
         <li className="flex items-center hover:bg-gray-700 p-2 rounded">
-          <Link href="/reports" className="flex items-center">
-            <FaChartLine size={24} />
-            {isExpanded && <span className="ml-3">Relatórios</span>}
+          <Link href="/pages/suppliers" className="flex items-center">
+            <FaPeopleCarry size={24} />
+            {isExpanded && <span className="ml-3">Fornecedores</span>}
           </Link>
-        </li>
+        </li>   
         <li className="flex items-center hover:bg-gray-700 p-2 rounded">
-          <Link href="/profile" className="flex items-center">
-            <FaUser size={24} />
-            {isExpanded && <span className="ml-3">Perfil</span>}
-          </Link>
-        </li>
-        <li className="flex items-center hover:bg-gray-700 p-2 rounded">
-          <Link href="/admin" className="flex items-center">
+          <Link href="/pages/dashboard" className="flex items-center">
             <FaTachometerAlt size={24} />
             {isExpanded && <span className="ml-3">Dashboard</span>}
+          </Link>
+        </li>
+        <li className="flex items-center hover:bg-gray-700 p-2 rounded">
+          <Link href="/pages/profile" className="flex items-center">
+            <FaUser size={24} />
+            {isExpanded && <span className="ml-3">Perfil</span>}
           </Link>
         </li>
       </ul>

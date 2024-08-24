@@ -6,7 +6,7 @@ import SearchBar from '../../components/interfaceComponents/searchBar';
 import Modal from '../../components/interfaceComponents/modal';
 import StockForm from '../../components/especificComponents/stockForm';
 import Button from '../../components/interfaceComponents/button';
-import Notification from '../../components/interfaceComponents/notification';
+import Notification from '../../components/interfaceComponents/customNotification';
 import { StockItem } from './types';
 import jsPDF from 'jspdf';
 
