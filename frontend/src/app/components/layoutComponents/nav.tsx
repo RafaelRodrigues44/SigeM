@@ -20,7 +20,7 @@ const Nav: React.FC = () => {
   };
 
   return (
-    <nav className={`bg-gray-800 text-white ${isExpanded ? 'w-60' : 'w-18'} h-screen p-3 transition-all duration-300 flex flex-col`}>
+    <nav className={`bg-gray-800 text-white ${isExpanded ? 'w-59' : 'w-15'} p-3 transition-all duration-300 flex flex-col`}>
       <button 
         className="text-white mb-4 ml-2" 
         onClick={toggleNav}
@@ -28,7 +28,7 @@ const Nav: React.FC = () => {
       >
         <FaBars size={28} />
       </button>
-      <ul className="flex flex-col space-y-2 overflow-hidden">
+      <ul className="flex flex-col space-y-2 overflow-hidden text-sm">
         <li className="flex items-center hover:bg-gray-700 p-2 rounded">
           <Link href="/pages/maintenance" className="flex items-center">
             <FaTools size={24} />
