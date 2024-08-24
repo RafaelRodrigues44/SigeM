@@ -12,19 +12,17 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt">
-      <body className="flex flex-col min-h-screen max-h-screen">
+      <body className="flex flex-col min-h-screen">
         <Header />
-        <div className="flex flex-col flex-1 overflow-hidden">
-          <div className="flex flex-1">
-            <Nav /> 
-            <main className="flex-1 p-4 overflow-auto">
-              {children}
-            </main>
-          </div>
+        <div className="flex flex-1">
+          <Nav />
+          <main className="flex-1 p-4 overflow-y-auto">
+            {children}
+          </main>
         </div>
-        <Footer />
       </body>
     </html>
   );
 }
+
 
