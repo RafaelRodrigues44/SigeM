@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import jsPDF from 'jspdf';
 import Modal from '../interfaceComponents/modal';
-import Notification from '../interfaceComponents/notification';
+import Notification from '../interfaceComponents/customNotification';
 import { Collaborator, Service } from '../../pages/collaborator/types';
 import Table from '../interfaceComponents/table';
 

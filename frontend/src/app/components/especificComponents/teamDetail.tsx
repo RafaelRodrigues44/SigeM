@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Modal from '../interfaceComponents/modal'; 
-import Notification from '../interfaceComponents/notification'; 
+import Notification from '../interfaceComponents/customNotification'; 
 import { Team, Collaborator } from '../../pages/collaborator/types'; 
 
 interface TeamDetailProps {

@@ -6,6 +6,7 @@ interface AvatarProps {
   src: string;
   alt: string;
   size?: number;
+  className?: string;
 }
 
 const Avatar: React.FC<AvatarProps> = ({ src, alt, size = 56 }) => {
