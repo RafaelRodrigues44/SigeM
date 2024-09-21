@@ -12,8 +12,7 @@ const Dashboard: React.FC = () => {
         <CardButton screen="machineList" iconName="list" text="Máquinas" iconColor="#070419"/>
         <CardButton screen="maintenanceList" iconName="time" text="Histórico de Manutenções" iconColor="#070419"/>
         <CardButton screen="orderService" iconName="construct" text="Solicitações de Manutenção" iconColor="#070419"/>
-        <CardButton screen="PartsRegistry" iconName="pencil" text="Registro de Peças" iconColor="#070419"/>
-        <CardButton screen="StockInquiry" iconName="archive" text="Consulta de Estoque" iconColor="#070419"/>
+        <CardButton screen="stockList" iconName="archive" text="Consulta de Estoque" iconColor="#070419"/>
         
       </View>
     </View>

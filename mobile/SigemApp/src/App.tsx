@@ -10,6 +10,7 @@ import Settings from './screens/settings';
 import MachineList from './screens/machineList';
 import MaintenanceForm from './screens/orderService';
 import MaintenanceList from './screens/maintenanceList';
+import StockManagement from './screens/stockList';
 
 // Mock de dados para estoque
 const stockItems = [
@@ -72,6 +73,7 @@ const App = () => {
         <Stack.Screen name="HomeTabs" component={TabNavigator} options={{ headerShown: false }} />
         <Stack.Screen name="machineList" component={MachineList} options={{ headerShown: false }} />
         <Stack.Screen name="maintenanceList" component={MaintenanceList} options={{ headerShown: false }} />
+        <Stack.Screen name="stockList" component={StockManagement} options={{ headerShown: false }} />
         <Stack.Screen 
           name="orderService" 
           component={OrderServiceScreen} 

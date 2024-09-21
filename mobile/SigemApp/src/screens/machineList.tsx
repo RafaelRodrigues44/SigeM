@@ -21,10 +21,16 @@ const mockMachines: Machine[] = [
     modelo: 'Modelo 1234',
     anoFabricacao: 2020,
   },
-  // Adicione outras máquinas conforme necessário
+
 ];
 
 const sectors = ['Canteiro 1', 'Canteiro 2', 'Oficina', 'Depósito']; // Lista de setores
+const statusOptions = ['ativo', 'inativo', 'em manutenção']; // Opções de status
+const statusIcons = {
+  ativo: 'checkmark-circle',
+  inativo: 'close-circle',
+  'em manutenção': 'construct',
+};
 
 const MachineList: React.FC<MachineListProps> = ({ navigation }) => {
   const [search, setSearch] = useState('');
@@ -32,6 +38,7 @@ const MachineList: React.FC<MachineListProps> = ({ navigation }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isDetailModalVisible, setDetailModalVisible] = useState(false);
   const [isAddModalVisible, setAddModalVisible] = useState(false);
+  const [isUpdateModalVisible, setUpdateModalVisible] = useState(false);
   const [selectedMachine, setSelectedMachine] = useState<Machine | null>(null);
   const [newMachine, setNewMachine] = useState<Machine>({
     id: '',
@@ -45,6 +52,8 @@ const MachineList: React.FC<MachineListProps> = ({ navigation }) => {
     modelo: '',
     anoFabricacao: new Date().getFullYear(),
   });
+
+  const [updatedStatus, setUpdatedStatus] = useState(selectedMachine?.status || 'ativo');
 
   const handleSearchChange = (text: string) => {
     setSearch(text);
@@ -77,22 +86,48 @@ const MachineList: React.FC<MachineListProps> = ({ navigation }) => {
     setSelectedMachine(null);
   };
 
-  const renderMachine = ({ item, index }: { item: Machine; index: number }) => (
-    <TouchableOpacity
-      onLongPress={() => handleLongPress(item)}
-      style={{
-        flexDirection: 'row',
-        padding: 12,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ddd',
-        backgroundColor: index % 2 === 0 ? '#f0f0f0' : '#e8e8e8',
-      }}
-    >
-      <Text style={{ flex: 1, fontSize: 16, color: '#333', textAlign: 'center' }}>{item.nome}</Text>
-      <Text style={{ flex: 1, fontSize: 16, color: '#333', textAlign: 'center' }}>{item.tipo}</Text>
-      <Text style={{ flex: 1, fontSize: 16, color: '#333', textAlign: 'center' }}>{item.localizacao || 'Não especificada'}</Text>
-    </TouchableOpacity>
-  );
+  const handleUpdateMachine = () => {
+    if (selectedMachine) {
+      const updatedMachineList = filteredMachines.map((machine) =>
+        machine.id === selectedMachine.id ? { ...machine, status: updatedStatus } : machine
+      );
+      setFilteredMachines(updatedMachineList);
+      setUpdateModalVisible(false);
+      setDetailModalVisible(false);
+    }
+  };
+
+  const renderMachine = ({ item, index }: { item: Machine; index: number }) => {
+    const backgroundColor = item.status === 'ativo' ? 'rgba(128, 128, 128, 0.1)' :  
+    item.status === 'inativo' ? 'rgba(255, 0, 0, 0.2)' : 
+    'rgba(255, 165, 0, 0.2ç)'; 
+
+  
+    return (
+      <TouchableOpacity
+        onLongPress={() => handleLongPress(item)}
+        style={{
+          flexDirection: 'row',
+          padding: 12,
+          borderBottomWidth: 1,
+          borderBottomColor: '#ddd',
+          backgroundColor: backgroundColor,
+        }}
+      >
+        <Text style={{ flex: 1, fontSize: 16, color: '#333', textAlign: 'center' }}>{item.nome}</Text>
+        <Text style={{ flex: 1, fontSize: 16, color: '#333', textAlign: 'center' }}>{item.tipo}</Text>
+        <Text style={{ flex: 1, fontSize: 16, color: '#333', textAlign: 'center' }}>{item.localizacao || 'Não especificada'}</Text>
+        <View style={{ width: 60, alignItems: 'center' }}> 
+          <Icon
+            name={statusIcons[item.status]}
+            size={24}
+            color={'black'}
+          />
+        </View>
+      </TouchableOpacity>
+    );
+  };
+  
 
   const handleAddMachine = () => {
     const newId = (mockMachines.length + 1).toString();
@@ -159,9 +194,10 @@ const MachineList: React.FC<MachineListProps> = ({ navigation }) => {
         borderBottomColor: '#ddd',
         borderRadius: 8,
       }}>
-        <Text style={{ flex: 1, fontWeight: 'bold', color: 'white', textAlign: 'center' }}>Nome</Text>
+        <Text style={{ flex: 1, fontWeight: 'bold', color: 'white', textAlign: 'center' }}>Máquina</Text>
         <Text style={{ flex: 1, fontWeight: 'bold', color: 'white', textAlign: 'center' }}>Tipo</Text>
         <Text style={{ flex: 1, fontWeight: 'bold', color: 'white', textAlign: 'center' }}>Localização</Text>
+        <Text style={{ flex: 1, fontWeight: 'bold', color: 'white', textAlign: 'center' }}>Status</Text>
       </View>
       <FlatList
         data={filteredMachines}
@@ -222,12 +258,26 @@ const MachineList: React.FC<MachineListProps> = ({ navigation }) => {
               <Text>Fabricante: {selectedMachine.fabricante}</Text>
               <Text>Modelo: {selectedMachine.modelo}</Text>
               <Text>Ano de Fabricação: {selectedMachine.anoFabricacao}</Text>
-              <TouchableOpacity onPress={handleCloseDetailModal} style={{
-                backgroundColor: '#070419',
-                padding: 10,
-                borderRadius: 5,
-                marginTop: 20,
-              }}>
+
+              <TouchableOpacity
+                onPress={() => setUpdateModalVisible(true)}
+                style={{
+                  backgroundColor: '#070419',
+                  padding: 10,
+                  borderRadius: 5,
+                  marginTop: 20,
+                }}>
+                <Text style={{ textAlign: 'center', color: 'white', fontWeight: 'bold' }}>Atualizar Máquina</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={handleCloseDetailModal}
+                style={{
+                  backgroundColor: '#999',
+                  padding: 10,
+                  borderRadius: 5,
+                  marginTop: 10,
+                }}>
                 <Text style={{ textAlign: 'center', color: 'white', fontWeight: 'bold' }}>Fechar</Text>
               </TouchableOpacity>
             </>
@@ -235,17 +285,58 @@ const MachineList: React.FC<MachineListProps> = ({ navigation }) => {
         </View>
       </Modal>
 
-      {/* Modal para adicionar nova máquina */}
+      {/* Modal de atualização de status */}
+      <Modal isVisible={isUpdateModalVisible}>
+        <View style={{
+          backgroundColor: '#fff',
+          borderRadius: 8,
+          padding: 20,
+        }}>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 20 }}>Atualizar Status</Text>
+
+          <Picker
+            selectedValue={updatedStatus}
+            onValueChange={(itemValue) => setUpdatedStatus(itemValue)}
+            style={{ marginBottom: 20 }}>
+            {statusOptions.map(status => (
+              <Picker.Item key={status} label={status} value={status} />
+            ))}
+          </Picker>
+
+          <TouchableOpacity
+            onPress={handleUpdateMachine}
+            style={{
+              backgroundColor: '#070419',
+              padding: 10,
+              borderRadius: 5,
+              marginBottom: 10,
+            }}>
+            <Text style={{ textAlign: 'center', color: 'white', fontWeight: 'bold' }}>Salvar Alterações</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => setUpdateModalVisible(false)}
+            style={{
+              backgroundColor: '#999',
+              padding: 10,
+              borderRadius: 5,
+            }}>
+            <Text style={{ textAlign: 'center', color: 'white', fontWeight: 'bold' }}>Cancelar</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
+
+      {/* Modal de cadastro de nova máquina */}
       <Modal isVisible={isAddModalVisible}>
         <ScrollView style={{
           backgroundColor: '#fff',
           borderRadius: 8,
           padding: 20,
-          maxHeight: '95%', 
         }}>
-          <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 20 }}>Adicionar Máquina</Text>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 20 }}>Cadastrar Máquina</Text>
+
           <TextInput
-            placeholder="Nome"
+            placeholder="Máquina"
             value={newMachine.nome}
             onChangeText={text => setNewMachine({ ...newMachine, nome: text })}
             style={{
@@ -269,7 +360,7 @@ const MachineList: React.FC<MachineListProps> = ({ navigation }) => {
             }}
           />
           <TextInput
-            placeholder="Data de Compra (YYYY-MM-DD)"
+            placeholder="Data de Compra"
             value={newMachine.dataCompra}
             onChangeText={text => setNewMachine({ ...newMachine, dataCompra: text })}
             style={{
@@ -280,22 +371,18 @@ const MachineList: React.FC<MachineListProps> = ({ navigation }) => {
               marginBottom: 10,
             }}
           />
-          <Text>Localização:</Text>
           <Picker
             selectedValue={newMachine.localizacao}
             onValueChange={(itemValue) => setNewMachine({ ...newMachine, localizacao: itemValue })}
             style={{
-              height: 50,
-              width: '100%',
-              marginBottom: 10,
               borderWidth: 1,
               borderColor: '#ccc',
               borderRadius: 5,
-            }}
-          >
-            <Picker.Item label="Selecione um setor" value="" />
-            {sectors.map((sector, index) => (
-              <Picker.Item key={index} label={sector} value={sector} />
+              padding: 10,
+              marginBottom: 10,
+            }}>
+            {sectors.map(sector => (
+              <Picker.Item key={sector} label={sector} value={sector} />
             ))}
           </Picker>
           <TextInput
@@ -334,39 +421,36 @@ const MachineList: React.FC<MachineListProps> = ({ navigation }) => {
               marginBottom: 10,
             }}
           />
-          <Text>Ano de Fabricação:</Text>
-          <Picker
-            selectedValue={newMachine.anoFabricacao}
-            onValueChange={(itemValue) => setNewMachine({ ...newMachine, anoFabricacao: itemValue })}
+          <TextInput
+            placeholder="Ano de Fabricação"
+            value={newMachine.anoFabricacao.toString()}
+            onChangeText={text => setNewMachine({ ...newMachine, anoFabricacao: parseInt(text, 10) })}
+            keyboardType="numeric"
             style={{
-              height: 50,
-              width: '100%',
-              marginBottom: 10,
               borderWidth: 1,
               borderColor: '#ccc',
               borderRadius: 5,
+              padding: 10,
+              marginBottom: 20,
             }}
-          >
-            {[...Array(30).keys()].map((_, index) => {
-              const year = new Date().getFullYear() - index;
-              return <Picker.Item key={year} label={String(year)} value={year} />;
-            })}
-          </Picker>
-
-          <TouchableOpacity onPress={handleAddMachine} style={{
-            backgroundColor: '#070419',
-            padding: 10,
-            borderRadius: 5,
-            marginTop: 5,
-          }}>
+          />
+          <TouchableOpacity
+            onPress={handleAddMachine}
+            style={{
+              backgroundColor: '#070419',
+              padding: 10,
+              borderRadius: 5,
+            }}>
             <Text style={{ textAlign: 'center', color: 'white', fontWeight: 'bold' }}>Adicionar Máquina</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setAddModalVisible(false)} style={{
-            backgroundColor: '#999',
-            padding: 10,
-            borderRadius: 5,
-            marginTop: 10,
-          }}>
+          <TouchableOpacity
+            onPress={() => setAddModalVisible(false)}
+            style={{
+              backgroundColor: '#ccc',
+              padding: 10,
+              borderRadius: 5,
+              marginTop: 10,
+            }}>
             <Text style={{ textAlign: 'center', color: 'white', fontWeight: 'bold' }}>Cancelar</Text>
           </TouchableOpacity>
         </ScrollView>
