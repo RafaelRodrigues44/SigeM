@@ -10,11 +10,11 @@ const Dashboard: React.FC = () => {
       <Text style={{ fontSize: 32, color: 'white', marginBottom: 60 }}>Menu</Text>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
         <CardButton screen="machineList" iconName="list" text="Máquinas" iconColor="#070419"/>
-        <CardButton screen="MaintenanceHistory" iconName="time" text="Histórico de Manutenções" iconColor="#070419"/>
+        <CardButton screen="maintenanceList" iconName="time" text="Histórico de Manutenções" iconColor="#070419"/>
         <CardButton screen="orderService" iconName="construct" text="Solicitações de Manutenção" iconColor="#070419"/>
-        <CardButton screen="machineDetail" iconName="information-circle" text="Detalhes da Máquina" iconColor="#070419"/>
         <CardButton screen="PartsRegistry" iconName="pencil" text="Registro de Peças" iconColor="#070419"/>
         <CardButton screen="StockInquiry" iconName="archive" text="Consulta de Estoque" iconColor="#070419"/>
+        
       </View>
     </View>
   );

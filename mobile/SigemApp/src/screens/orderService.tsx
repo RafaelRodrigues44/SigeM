@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Modal, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { Calendar } from 'react-native-calendars';
+import { useNavigation } from '@react-navigation/native';
 
 interface StockItem {
   id: string;
@@ -57,6 +59,9 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({
   const [showItemModal, setShowItemModal] = useState<boolean>(false);
   const [showServiceModal, setShowServiceModal] = useState<boolean>(false);
   const [showMachineModal, setShowMachineModal] = useState<boolean>(false);
+  const [showCalendar, setShowCalendar] = useState<boolean>(false);
+
+  const navigation = useNavigation();
 
   const handleSave = () => {
     const maintenance = {
@@ -72,6 +77,12 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({
       machine: selectedMachine,
     };
     onSave(maintenance);
+    navigation.goBack(); // Voltar após salvar
+  };
+
+  const handleCancel = () => {
+    onClose();
+    navigation.goBack(); // Voltar para a tela anterior
   };
 
   const handleSelectItem = (item: StockItem) => {
@@ -89,6 +100,11 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({
     setShowMachineModal(false);
   };
 
+  const handleDayPress = (day: any) => {
+    setDate(day.dateString);
+    setShowCalendar(false);
+  };
+
   return (
     <Modal
       transparent={false}
@@ -100,12 +116,24 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({
           <Text style={{ fontSize: 24, fontWeight: 'bold', textAlign: 'center', marginBottom: 20 }}>Cadastro de Manutenção</Text>
 
           <Text>Data da Solicitação:</Text>
-          <TextInput
-            style={{ borderWidth: 1, borderColor: 'gray', borderRadius: 4, marginBottom: 20, padding: 10 }}
-            value={date}
-            onChangeText={setDate}
-            placeholder="AAAA-MM-DD"
-          />
+          <TouchableOpacity onPress={() => setShowCalendar(true)} style={{ marginBottom: 20 }}>
+            <TextInput
+              style={{ borderWidth: 1, borderColor: 'gray', borderRadius: 4, padding: 10 }}
+              value={date}
+              editable={false}
+            />
+          </TouchableOpacity>
+
+          {showCalendar && (
+            <View style={{ marginBottom: 20 }}>
+              <Calendar
+                onDayPress={handleDayPress}
+                markedDates={{ [date]: { selected: true } }}
+                style={{ marginBottom: 20 }}
+              />
+              <Button title="Fechar" onPress={() => setShowCalendar(false)} />
+            </View>
+          )}
 
           <Text>Prioridade:</Text>
           <Picker
@@ -167,15 +195,6 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({
           </View>
 
           <View style={{ borderWidth: 1, borderColor: '#070419', borderRadius: 10, padding: 10, marginBottom: 20 }}>
-            <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>Máquina Selecionada:</Text>
-            {selectedMachine ? (
-              <Text>{selectedMachine.name}</Text>
-            ) : (
-              <Text>Nenhuma máquina selecionada</Text>
-            )}
-          </View>
-
-          <View style={{ borderWidth: 1, borderColor: '#070419', borderRadius: 10, padding: 10, marginBottom: 20 }}>
             <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>Itens Selecionados:</Text>
             {selectedItems.map(item => (
               <Text key={item.id}>{item.name}</Text>
@@ -188,34 +207,61 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({
               <Text key={service.id}>{service.name}</Text>
             ))}
           </View>
+
+          {selectedMachine && (
+            <View style={{ borderWidth: 1, borderColor: '#070419', borderRadius: 10, padding: 10, marginBottom: 20 }}>
+              <Text style={{ fontWeight: 'bold' }}>Máquina Selecionada:</Text>
+              <Text>{selectedMachine.name}</Text>
+            </View>
+          )}
+
+          <Text>Comentários:</Text>
+          <TextInput
+            style={{ borderWidth: 1, borderColor: 'gray', borderRadius: 4, marginBottom: 20, padding: 10, height: 100 }}
+            multiline
+            value={comments}
+            onChangeText={setComments}
+          />
         </ScrollView>
 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10 }}>
-          <TouchableOpacity style={{ backgroundColor: '#070419', borderRadius: 5, padding: 10, flex: 1, marginRight: 10 }} onPress={handleSave}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 20 }}>
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#070419',
+              borderRadius: 5,
+              padding: 10,
+              flex: 1,
+              marginHorizontal: 5,
+            }}
+            onPress={handleSave}
+          >
             <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>Salvar</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{ backgroundColor: '#070419', borderRadius: 5, padding: 10, flex: 1 }} onPress={onClose}>
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#070419',
+              borderRadius: 5,
+              padding: 10,
+              flex: 1,
+              marginHorizontal: 5,
+            }}
+            onPress={handleCancel}
+          >
             <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>Cancelar</Text>
           </TouchableOpacity>
         </View>
-      </View>
 
-      {/* Modal para selecionar itens */}
-      {showItemModal && (
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={showItemModal}
-        >
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
-            <View style={{ width: '80%', backgroundColor: 'white', borderRadius: 10, padding: 20 }}>
+        {/* Modais para seleção de itens, serviços e máquinas */}
+        <Modal visible={showItemModal} transparent={true}>
+          <View style={{ flex: 1, justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+            <View style={{ backgroundColor: 'white', margin: 20, borderRadius: 10, padding: 20 }}>
               <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>Selecionar Itens</Text>
               <FlatList
                 data={stockItems}
                 keyExtractor={item => item.id}
                 renderItem={({ item }) => (
-                  <TouchableOpacity onPress={() => handleSelectItem(item)} style={{ padding: 10 }}>
-                    <Text>{item.name}</Text>
+                  <TouchableOpacity onPress={() => handleSelectItem(item)}>
+                    <Text style={{ padding: 10 }}>{item.name}</Text>
                   </TouchableOpacity>
                 )}
               />
@@ -223,24 +269,17 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({
             </View>
           </View>
         </Modal>
-      )}
 
-      {/* Modal para selecionar serviços */}
-      {showServiceModal && (
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={showServiceModal}
-        >
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
-            <View style={{ width: '80%', backgroundColor: 'white', borderRadius: 10, padding: 20 }}>
+        <Modal visible={showServiceModal} transparent={true}>
+          <View style={{ flex: 1, justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+            <View style={{ backgroundColor: 'white', margin: 20, borderRadius: 10, padding: 20 }}>
               <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>Selecionar Serviços</Text>
               <FlatList
                 data={services}
-                keyExtractor={service => service.id}
+                keyExtractor={item => item.id}
                 renderItem={({ item }) => (
-                  <TouchableOpacity onPress={() => handleSelectService(item)} style={{ padding: 10 }}>
-                    <Text>{item.name}</Text>
+                  <TouchableOpacity onPress={() => handleSelectService(item)}>
+                    <Text style={{ padding: 10 }}>{item.name}</Text>
                   </TouchableOpacity>
                 )}
               />
@@ -248,24 +287,17 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({
             </View>
           </View>
         </Modal>
-      )}
 
-      {/* Modal para selecionar máquinas */}
-      {showMachineModal && (
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={showMachineModal}
-        >
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
-            <View style={{ width: '80%', backgroundColor: 'white', borderRadius: 10, padding: 20 }}>
-              <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>Selecionar Máquinas</Text>
+        <Modal visible={showMachineModal} transparent={true}>
+          <View style={{ flex: 1, justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+            <View style={{ backgroundColor: 'white', margin: 20, borderRadius: 10, padding: 20 }}>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>Selecionar Máquina</Text>
               <FlatList
                 data={machines}
-                keyExtractor={machine => machine.id}
+                keyExtractor={item => item.id}
                 renderItem={({ item }) => (
-                  <TouchableOpacity onPress={() => handleSelectMachine(item)} style={{ padding: 10 }}>
-                    <Text>{item.name}</Text>
+                  <TouchableOpacity onPress={() => handleSelectMachine(item)}>
+                    <Text style={{ padding: 10 }}>{item.name}</Text>
                   </TouchableOpacity>
                 )}
               />
@@ -273,7 +305,7 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({
             </View>
           </View>
         </Modal>
-      )}
+      </View>
     </Modal>
   );
 };
