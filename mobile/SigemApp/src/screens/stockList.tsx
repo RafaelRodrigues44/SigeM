@@ -11,54 +11,12 @@ interface StockItem {
 }
 
 const initialStockItems: StockItem[] = [
-  {
-    id: '1',
-    name: 'Produto A',
-    code: 'A001',
-    quantity: 10,
-    unitPrice: 15.0,
-    type: 'piece',
-  },
-  {
-    id: '2',
-    name: 'Produto B',
-    code: 'A002',
-    quantity: 8,
-    unitPrice: 20.0,
-    type: 'piece',
-  },
-  {
-    id: '3',
-    name: 'Produto C',
-    code: 'A003',
-    quantity: 5,
-    unitPrice: 12.0,
-    type: 'piece',
-  },
-  {
-    id: '4',
-    name: 'Material A',
-    code: 'B001',
-    quantity: 3,
-    unitPrice: 5.0,
-    type: 'material',
-  },
-  {
-    id: '5',
-    name: 'Material B',
-    code: 'B002',
-    quantity: 7,
-    unitPrice: 8.0,
-    type: 'material',
-  },
-  {
-    id: '6',
-    name: 'Material C',
-    code: 'B003',
-    quantity: 12,
-    unitPrice: 6.0,
-    type: 'material',
-  },
+  { id: '1', name: 'Produto A', code: 'A001', quantity: 10, unitPrice: 15.0, type: 'piece' },
+  { id: '2', name: 'Produto B', code: 'A002', quantity: 8, unitPrice: 20.0, type: 'piece' },
+  { id: '3', name: 'Produto C', code: 'A003', quantity: 5, unitPrice: 12.0, type: 'piece' },
+  { id: '4', name: 'Material A', code: 'B001', quantity: 3, unitPrice: 5.0, type: 'material' },
+  { id: '5', name: 'Material B', code: 'B002', quantity: 7, unitPrice: 8.0, type: 'material' },
+  { id: '6', name: 'Material C', code: 'B003', quantity: 12, unitPrice: 6.0, type: 'material' },
 ];
 
 const StockManagement = () => {
@@ -99,14 +57,24 @@ const StockManagement = () => {
     setFilteredItems(updatedItems);
     setAddModalVisible(false);
     setNewItem({ id: '', name: '', code: '', quantity: 0, unitPrice: 0, type: selectedType });
-    handleSearchChange(search); // Atualiza a filtragem
+    handleSearchChange(search);
   };
 
   const handleUpdateItem = () => {
     if (selectedItem) {
-      const updatedList = filteredItems.map(item =>
-        item.id === selectedItem.id ? { ...item, ...newItem } : item
-      );
+      const updatedList = filteredItems.map(item => {
+        if (item.id === selectedItem.id) {
+          return {
+            ...item,
+            name: selectedItem.name,
+            code: selectedItem.code,
+            quantity: selectedItem.quantity,
+            unitPrice: selectedItem.unitPrice,
+            type: item.type, // mantém o tipo original
+          };
+        }
+        return item;
+      });
       setFilteredItems(updatedList);
       setUpdateModalVisible(false);
       setSelectedItem(null);
@@ -115,19 +83,19 @@ const StockManagement = () => {
 
   const getStatusColor = (quantity: number): string => {
     if (quantity < 5) return 'red';
-    if (quantity < 10) return 'yellow';
+    if (quantity < 10) return '#FFD700';
     return 'green';
   };
 
   const renderItem = ({ item }: { item: StockItem }) => (
     <TouchableOpacity onLongPress={() => handleLongPress(item)} style={{ flexDirection: 'row', borderBottomWidth: 1, borderColor: '#ccc', paddingVertical: 10 }}>
-      <Text style={{ flex: 1, padding: 10 }}>{item.name}</Text>
-      <Text style={{ flex: 1, padding: 10 }}>{item.code}</Text>
-      <Text style={{ flex: 1, padding: 10 }}>{item.quantity}</Text>
-      <Text style={{ flex: 1, padding: 10, color: getStatusColor(item.quantity) }}>
+      <Text style={{ flex: 2, padding: 4, textAlign: 'center' }}>{item.name}</Text>
+      <Text style={{ flex: 1, padding: 4, textAlign: 'center' }}>{item.code}</Text>
+      <Text style={{ flex: 1, padding: 4, textAlign: 'center' }}>{item.quantity}</Text>
+      <Text style={{ flex: 1, padding: 4, textAlign: 'center', color: getStatusColor(item.quantity) }}>
         {item.quantity < 5 ? 'Crítico' : item.quantity < 10 ? 'Alerta' : 'Normal'}
       </Text>
-      <Text style={{ flex: 1, padding: 10 }}>R$ {item.unitPrice.toFixed(2)}</Text>
+      <Text style={{ flex: 1.5, padding: 4, textAlign: 'center' }}>R$ {item.unitPrice.toFixed(2)}</Text>
     </TouchableOpacity>
   );
 
@@ -140,7 +108,7 @@ const StockManagement = () => {
         placeholder="Buscar item..."
         style={{ borderWidth: 1, borderColor: '#ccc', borderRadius: 5, padding: 10, marginBottom: 20 }}
       />
-      
+
       <View style={{ flexDirection: 'row', marginBottom: 20 }}>
         <TouchableOpacity onPress={() => setSelectedType('piece')} style={{ flex: 1, backgroundColor: selectedType === 'piece' ? '#070419' : '#ccc', padding: 10, borderRadius: 5, alignItems: 'center' }}>
           <Text style={{ color: '#fff', fontWeight: 'bold' }}>Peças</Text>
@@ -156,12 +124,13 @@ const StockManagement = () => {
 
       <View style={{ borderWidth: 1, borderColor: '#ccc', borderRadius: 5 }}>
         <View style={{ flexDirection: 'row', backgroundColor: '#f0f0f0' }}>
-          <Text style={{ flex: 1, padding: 10, fontWeight: 'bold' }}>Nome</Text>
-          <Text style={{ flex: 1, padding: 10, fontWeight: 'bold' }}>Código</Text>
-          <Text style={{ flex: 1, padding: 10, fontWeight: 'bold' }}>Qtd</Text>
-          <Text style={{ flex: 1, padding: 10, fontWeight: 'bold' }}>Status</Text>
-          <Text style={{ flex: 1, padding: 10, fontWeight: 'bold' }}>Valor</Text>
+          <Text style={{ flex: 1, padding: 10, fontWeight: 'bold', textAlign: 'center' }}>Nome</Text>
+          <Text style={{ flex: 1, padding: 10, fontWeight: 'bold', textAlign: 'center' }}>Código</Text>
+          <Text style={{ flex: 1, padding: 10, fontWeight: 'bold', textAlign: 'center' }}>Qtd</Text>
+          <Text style={{ flex: 1, padding: 10, fontWeight: 'bold', textAlign: 'center' }}>Status</Text>
+          <Text style={{ flex: 1.5, padding: 10, fontWeight: 'bold', textAlign: 'center' }}>Valor</Text>
         </View>
+
         <FlatList
           data={filteredItems.filter(item => item.type === selectedType)}
           keyExtractor={(item) => item.id}
@@ -172,21 +141,24 @@ const StockManagement = () => {
 
       {/* Modal de cadastro de novo item */}
       <Modal visible={isAddModalVisible} transparent={true} animationType="slide">
-        <View style={{ flex: 1, justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)', padding: 20 }}>
-          <ScrollView style={{ backgroundColor: '#fff', borderRadius: 8, padding: 20 }}>
-            <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 20 }}>Cadastrar Item</Text>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)', padding: 20 }}>
+          <ScrollView style={{ backgroundColor: '#fff', borderRadius: 8, padding: 20, maxHeight: '75%', width: '90%' }}>
+            <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 20, textAlign: 'center' }}>Cadastrar Item</Text>
+            <Text>Nome do Item</Text>
             <TextInput
               placeholder="Nome"
               value={newItem.name}
               onChangeText={text => setNewItem({ ...newItem, name: text })}
               style={{ borderWidth: 1, borderColor: '#ccc', borderRadius: 5, padding: 10, marginBottom: 20 }}
             />
+            <Text>Código</Text>
             <TextInput
               placeholder="Código"
               value={newItem.code}
               onChangeText={text => setNewItem({ ...newItem, code: text })}
               style={{ borderWidth: 1, borderColor: '#ccc', borderRadius: 5, padding: 10, marginBottom: 20 }}
             />
+            <Text>Quantidade de Entrada</Text>
             <TextInput
               placeholder="Qtd"
               value={newItem.quantity.toString()}
@@ -194,6 +166,7 @@ const StockManagement = () => {
               keyboardType="numeric"
               style={{ borderWidth: 1, borderColor: '#ccc', borderRadius: 5, padding: 10, marginBottom: 20 }}
             />
+            <Text>Valor Unitário</Text>
             <TextInput
               placeholder="Valor Unitário"
               value={newItem.unitPrice.toString()}
@@ -201,6 +174,14 @@ const StockManagement = () => {
               keyboardType="numeric"
               style={{ borderWidth: 1, borderColor: '#ccc', borderRadius: 5, padding: 10, marginBottom: 20 }}
             />
+            <View style={{ flexDirection: 'row', marginBottom: 20 }}>
+              <TouchableOpacity onPress={() => setNewItem({ ...newItem, type: 'piece' })} style={{ flex: 1, backgroundColor: newItem.type === 'piece' ? '#070419' : '#ccc', padding: 10, borderRadius: 5, alignItems: 'center' }}>
+                <Text style={{ color: '#fff', fontWeight: 'bold' }}>Peça</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setNewItem({ ...newItem, type: 'material' })} style={{ flex: 1, backgroundColor: newItem.type === 'material' ? '#070419' : '#ccc', padding: 10, borderRadius: 5, alignItems: 'center' }}>
+                <Text style={{ color: '#fff', fontWeight: 'bold' }}>Material</Text>
+              </TouchableOpacity>
+            </View>
             <TouchableOpacity onPress={handleAddItem} style={{ backgroundColor: '#070419', padding: 10, borderRadius: 5 }}>
               <Text style={{ textAlign: 'center', color: 'white', fontWeight: 'bold' }}>Adicionar Item</Text>
             </TouchableOpacity>
@@ -235,34 +216,38 @@ const StockManagement = () => {
 
       {/* Modal de edição do item */}
       <Modal visible={isUpdateModalVisible} transparent={true} animationType="slide">
-        <View style={{ flex: 1, justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)', padding: 20 }}>
-          <ScrollView style={{ backgroundColor: '#fff', borderRadius: 8, padding: 20 }}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)', padding: 20 }}>
+          <ScrollView style={{ backgroundColor: '#fff', borderRadius: 8, padding: 20, maxHeight: '70%', width: '90%' }}>
             {selectedItem && (
               <>
-                <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 20 }}>Editar Item</Text>
+                <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 20, textAlign: 'center' }}>Editar Item</Text>
+                <Text>Nome do Item</Text>
                 <TextInput
                   placeholder="Nome"
                   value={selectedItem.name}
-                  onChangeText={text => setSelectedItem({ ...selectedItem, name: text } as StockItem)}
+                  onChangeText={text => setSelectedItem(prev => prev ? { ...prev, name: text } : prev)}
                   style={{ borderWidth: 1, borderColor: '#ccc', borderRadius: 5, padding: 10, marginBottom: 20 }}
                 />
+                <Text>Código</Text>
                 <TextInput
                   placeholder="Código"
                   value={selectedItem.code}
-                  onChangeText={text => setSelectedItem({ ...selectedItem, code: text } as StockItem)}
+                  onChangeText={text => setSelectedItem(prev => prev ? { ...prev, code: text } : prev)}
                   style={{ borderWidth: 1, borderColor: '#ccc', borderRadius: 5, padding: 10, marginBottom: 20 }}
                 />
+                <Text>Quantidade de Entrada</Text>
                 <TextInput
                   placeholder="Qtd"
                   value={selectedItem.quantity.toString()}
-                  onChangeText={text => setSelectedItem({ ...selectedItem, quantity: parseInt(text, 10) } as StockItem)}
+                  onChangeText={text => setSelectedItem(prev => prev ? { ...prev, quantity: parseInt(text, 10) } : prev)}
                   keyboardType="numeric"
                   style={{ borderWidth: 1, borderColor: '#ccc', borderRadius: 5, padding: 10, marginBottom: 20 }}
                 />
+                <Text>Valor Unitário</Text>
                 <TextInput
                   placeholder="Valor Unitário"
                   value={selectedItem.unitPrice.toString()}
-                  onChangeText={text => setSelectedItem({ ...selectedItem, unitPrice: parseFloat(text) } as StockItem)}
+                  onChangeText={text => setSelectedItem(prev => prev ? { ...prev, unitPrice: parseFloat(text) } : prev)}
                   keyboardType="numeric"
                   style={{ borderWidth: 1, borderColor: '#ccc', borderRadius: 5, padding: 10, marginBottom: 20 }}
                 />
