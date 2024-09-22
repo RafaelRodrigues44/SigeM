@@ -9,7 +9,7 @@ interface ButtonProps {
   fontSize?: number; 
   height?: number; 
   width?: number;
-  className?: string; 
+  style?:object
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -20,14 +20,15 @@ const Button: React.FC<ButtonProps> = ({
   fontSize = 16,
   height = 48,
   width = 200, 
-  className,
 }) => {
   return (
     <TouchableOpacity
       style={[styles.button, { backgroundColor: color, height, width }]} 
       onPress={onPress}
     >
-      <Text style={[styles.text, { color: textColor, fontSize }]}> {title} </Text> 
+      <Text style={[styles.text, { color: textColor, fontSize }]}> 
+        {title} 
+      </Text> 
     </TouchableOpacity>
   );
 };
