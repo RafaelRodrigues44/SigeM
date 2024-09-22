@@ -5,10 +5,11 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import InputField from '../components/inputField';
 import Button from '../components/button';
 
-// Definir os tipos de navegação
 type StackParamList = {
   Login: undefined;
   HomeTabs: undefined;  
+  Register: undefined; // Tela de registro
+  Forgot: undefined; // Tela de recuperação de senha
 };
 
 type NavigationProps = NativeStackNavigationProp<StackParamList, 'Login'>;
@@ -18,59 +19,71 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const navigation = useNavigation<NavigationProps>(); 
 
-  // Função de login
   const handleLogin = () => {
     console.log('Username:', username);
     console.log('Password:', password);
 
     if (username && password) {
-      navigation.navigate('HomeTabs'); // Direciona para a HomeTabs
+      navigation.navigate('HomeTabs'); 
     } else {
       console.log('Preencha todos os campos');
     }
   };
 
   const handleForgotPassword = () => {
-    console.log('Forgot Password');
+    navigation.navigate('Forgot'); // Navega para a tela de recuperação de senha
   };
 
   const handleHelp = () => {
     console.log('Help');
   };
 
+  const handleRegister = () => {
+    navigation.navigate('Register'); // Navega para a tela de registro
+  };
+
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#070419', padding: 20 }}>
       <StatusBar hidden={false} />
       <Text style={{ fontSize: 40, color: 'white', marginBottom: 32 }}>Login</Text>
-      <InputField
-        label="Username"
-        value={username}
-        onChangeText={setUsername}
-        style={{ marginBottom: 16 }} 
-      />
-      <InputField
-        label="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry={true}
-        style={{ marginBottom: 16 }} 
-      />
-      <Button
-        title="Login"
-        onPress={handleLogin}  
-        color="#FF5733"
-        textColor="#FFFFFF"
-        fontSize={18}
-        height={50}
-        width={200}
-        style={{ marginBottom: 16 }} 
-      />
+      
+      <View style={{ marginBottom: 16, width: '83%' }}>
+        <InputField
+          label="Username"
+          value={username}
+          onChangeText={setUsername}
+        />
+      </View>
+      <View style={{ marginBottom: 16, width: '83%' }}>
+        <InputField
+          label="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={true}
+        />
+      </View>
+      
+      <View style={{ marginBottom: 30 }}>
+        <Button
+          title="Login"
+          onPress={handleLogin}  
+          color="#A9A9A9" 
+          textColor="#FFFFFF"
+          fontSize={18}
+          height={50}
+          width={100}
+        />
+      </View>
+
       <TouchableOpacity onPress={handleForgotPassword}>
-        <Text style={{ color: 'blue', fontSize: 14, marginBottom: 8 }}>Forgot Password?</Text>
+        <Text style={{ color: '#D3D3D3', fontSize: 14, marginBottom: 8, marginTop: 40 }}>Esqueceu a senha?</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handleRegister}> 
+        <Text style={{ color: '#D3D3D3', fontSize: 14, marginBottom: 8 }}>Cadastrar</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={handleHelp}>
-        <Text style={{ color: 'blue', fontSize: 14 }}>Help</Text>
+        <Text style={{ color: '#D3D3D3', fontSize: 14 }}>Help</Text>
       </TouchableOpacity>
     </View>
   );
-}
+} 

@@ -11,6 +11,10 @@ import MachineList from './screens/machineList';
 import MaintenanceForm from './screens/orderService';
 import MaintenanceList from './screens/maintenanceList';
 import StockManagement from './screens/stockList';
+import RegisterScreen from './screens/siginUp';
+import ForgotPasswordScreen from './screens/passwordRetriever';
+
+import Icon from 'react-native-vector-icons/Ionicons';
 
 // Mock de dados para estoque
 const stockItems = [
@@ -39,12 +43,35 @@ const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName: string;
+
+          if (route.name === 'Dashboard') {
+            iconName = focused ? 'home' : 'home-outline';
+          } else if (route.name === 'Settings') {
+            iconName = focused ? 'settings' : 'settings-outline';
+          } else {
+            iconName = 'home-outline'; 
+          }
+
+          return <Icon name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: '#D3D3D3',
+        tabBarInactiveTintColor: 'gray',
+        tabBarStyle: {
+          backgroundColor: '#070419', 
+        },
+      })}
+    >
       <Tab.Screen name="Dashboard" component={Dashboard} options={{ headerShown: false }} />
       <Tab.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
     </Tab.Navigator>
   );
 };
+
+
 
 // Componente separado para o MaintenanceForm
 const OrderServiceScreen = (props: any) => {
@@ -52,10 +79,8 @@ const OrderServiceScreen = (props: any) => {
     <MaintenanceForm 
       {...props} 
       onSave={(maintenance) => {
-        // Lógica para salvar a manutenção
       }}
       onClose={() => {
-        // Lógica para fechar a tela
       }}
       stockItems={stockItems}
       services={services}
@@ -70,6 +95,8 @@ const App = () => {
       <Stack.Navigator initialRouteName="Splash">
         <Stack.Screen name="Splash" component={SplashScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Forgot" component={ForgotPasswordScreen} options={{ headerShown: false }} />
         <Stack.Screen name="HomeTabs" component={TabNavigator} options={{ headerShown: false }} />
         <Stack.Screen name="machineList" component={MachineList} options={{ headerShown: false }} />
         <Stack.Screen name="maintenanceList" component={MaintenanceList} options={{ headerShown: false }} />
