@@ -6,13 +6,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SplashScreen from './screens/splash_screen';
 import LoginScreen from './screens/login';
 import Dashboard from './screens/dashboard';
-import Settings from './screens/settings';
 import MachineList from './screens/machineList';
 import MaintenanceForm from './screens/orderService';
 import MaintenanceList from './screens/maintenanceList';
 import StockManagement from './screens/stockList';
 import RegisterScreen from './screens/siginUp';
 import ForgotPasswordScreen from './screens/passwordRetriever';
+import ProfileScreen from './screens/profileManager';
 import TeamManagementScreen from './screens/teamsManager';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -28,8 +28,8 @@ const TabNavigator = () => {
 
           if (route.name === 'Dashboard') {
             iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === 'Settings') {
-            iconName = focused ? 'settings' : 'settings-outline';
+          } else if (route.name === 'Profile') {
+            iconName = focused ? 'person' : 'person-outline';
           } else {
             iconName = 'home-outline'; 
           }
@@ -44,7 +44,7 @@ const TabNavigator = () => {
       })}
     >
       <Tab.Screen name="Gerenciamnetos" component={Dashboard} options={{ headerShown: false }} />
-      <Tab.Screen name="Profile" component={Settings} options={{ headerShown: false }} />
+      <Tab.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
     </Tab.Navigator>
   );
 };
