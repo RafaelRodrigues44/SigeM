@@ -7,8 +7,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 
 type ForgotPasswordScreenProps = {
-  navigation: StackNavigationProp<any>; 
-  route: RouteProp<any>; 
+  navigation: StackNavigationProp<any>;
+  route: RouteProp<any>;
 };
 
 const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({ navigation }) => {
@@ -26,7 +26,7 @@ const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({ navigation 
 
         setTimeout(() => {
           setModalVisible(false);
-          navigation.navigate('Login'); 
+          navigation.navigate('Login');
         }, 8000);
       }, 1000);
     } else {
@@ -36,7 +36,7 @@ const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({ navigation 
 
       setTimeout(() => {
         setModalVisible(false);
-        navigation.navigate('Login'); 
+        navigation.navigate('Login');
       }, 8000);
     }
   };
@@ -57,8 +57,8 @@ const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({ navigation 
       <View style={{ marginBottom: 30 }}>
         <Button
           title="Enviar"
-          onPress={handleSendEmail}  
-          color="#A9A9A9" 
+          onPress={handleSendEmail}
+          color="#A9A9A9"
           textColor="#FFFFFF"
           fontSize={18}
           height={50}
@@ -78,7 +78,7 @@ const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({ navigation 
             <Text style={{ fontSize: 18, marginVertical: 20, textAlign: 'center' }}>{modalMessage}</Text>
             <TouchableOpacity onPress={() => {
               setModalVisible(false);
-              navigation.navigate('Login'); 
+              navigation.navigate('Login');
             }} style={{ marginTop: 10 }}>
               <Text style={{ color: '#007BFF', fontSize: 16 }}>Fechar</Text>
             </TouchableOpacity>

@@ -40,7 +40,7 @@ const StockManagement = () => {
     setSearch(text);
     const filtered = text
       ? initialStockItems.filter(item =>
-          item.type === selectedType && item.name.toLowerCase().includes(text.toLowerCase()))
+        item.type === selectedType && item.name.toLowerCase().includes(text.toLowerCase()))
       : initialStockItems.filter(item => item.type === selectedType);
     setFilteredItems(filtered);
   };
@@ -70,7 +70,7 @@ const StockManagement = () => {
             code: selectedItem.code,
             quantity: selectedItem.quantity,
             unitPrice: selectedItem.unitPrice,
-            type: item.type, // mantém o tipo original
+            type: item.type,
           };
         }
         return item;

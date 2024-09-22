@@ -6,7 +6,6 @@ const Settings = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Configurações</Text>
       <Text style={styles.text}>Aqui você pode ajustar suas preferências.</Text>
-      {/* Adicione mais componentes ou opções de configuração conforme necessário */}
     </View>
   );
 };

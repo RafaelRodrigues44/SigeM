@@ -37,13 +37,6 @@ interface Team {
   name: string;
 }
 
-interface MaintenanceFormProps {
-  onSave: (maintenance: any) => void;
-  onClose: () => void;
-  services: Service[];
-  machines: Machine[];
-}
-
 const initialStockItems: StockItem[] = [
   { id: '1', name: 'Produto A', code: 'A001', quantity: 10, unitPrice: 15.0, type: 'piece' },
   { id: '2', name: 'Produto B', code: 'A002', quantity: 8, unitPrice: 20.0, type: 'piece' },
@@ -60,12 +53,17 @@ const teams: Team[] = [
   { id: '4', name: 'Equipe D' },
 ];
 
-const MaintenanceForm: React.FC<MaintenanceFormProps> = ({
-  onSave,
-  onClose,
-  services,
-  machines,
-}) => {
+const services: Service[] = [
+  { id: '1', name: 'Serviço A' },
+  { id: '2', name: 'Serviço B' },
+];
+
+const machines: Machine[] = [
+  { id: '1', name: 'Máquina A' },
+  { id: '2', name: 'Máquina B' },
+];
+
+const MaintenanceForm: React.FC = () => {
   const [description, setDescription] = useState<string>('');
   const [date, setDate] = useState<string>(new Date().toISOString().substring(0, 10));
   const [priority, setPriority] = useState<string>('');
@@ -84,8 +82,6 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({
 
   const navigation = useNavigation();
 
-  
-
   const handleSave = () => {
     const maintenance = {
       description,
@@ -99,12 +95,11 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({
       services: selectedServices,
       machine: selectedMachine,
     };
-    onSave(maintenance);
+    console.log(maintenance); 
     navigation.goBack();
   };
 
   const handleCancel = () => {
-    onClose();
     navigation.goBack();
   };
 
@@ -159,7 +154,7 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({
 
   const renderItemModal = () => {
     const filteredItems = initialStockItems.filter(item => item.type === itemType);
-  
+
     return (
       <View style={{ marginBottom: 20 }}>
         <FlatList
@@ -179,10 +174,10 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({
                 <Text style={{ flex: 1, padding: 4, textAlign: 'center' }}>{item.name}</Text>
                 <Text style={{ flex: 1, padding: 4, textAlign: 'center' }}>{item.quantity}</Text>
               </TouchableOpacity>
-  
-              {item.quantity < 10 && ( // Verifica se a quantidade é menor que 10
-                <TouchableOpacity 
-                  onPress={() => handleRequestOrder(item)} 
+
+              {item.quantity < 10 && (
+                <TouchableOpacity
+                  onPress={() => handleRequestOrder(item)}
                   style={{ padding: 4, alignItems: 'center' }}>
                   <Text style={{ color: 'blue', textAlign: 'center' }}>Solicitar Ordem</Text>
                 </TouchableOpacity>
@@ -193,8 +188,8 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({
       </View>
     );
   };
-  
-  
+
+
 
   return (
     <Modal transparent={false} animationType="slide" visible={true}>
@@ -306,20 +301,20 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({
             onChangeText={setDescription}
           />
 
-<View style={{ borderWidth: 1, borderColor: '#070419', borderRadius: 10, padding: 20, marginBottom: 20 }}>
-  <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', marginBottom: 10 }}>Selecionar</Text>
-  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-    <TouchableOpacity style={{ backgroundColor: '#070419', borderRadius: 5, padding: 10, flex: 1, margin: 5 }} onPress={() => setShowMachineModal(true)}>
-      <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>Máquina</Text>
-    </TouchableOpacity>
-    <TouchableOpacity style={{ backgroundColor: '#070419', borderRadius: 5, padding: 10, flex: 1, margin: 5 }} onPress={() => setShowItemModal(true)}>
-      <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>Itens</Text>
-    </TouchableOpacity>
-    <TouchableOpacity style={{ backgroundColor: '#070419', borderRadius: 5, padding: 10, flex: 1, margin: 5 }} onPress={() => setShowServiceModal(true)}>
-      <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>Serviços</Text>
-    </TouchableOpacity>
-  </View>
-</View>
+          <View style={{ borderWidth: 1, borderColor: '#070419', borderRadius: 10, padding: 20, marginBottom: 20 }}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', marginBottom: 10 }}>Selecionar</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <TouchableOpacity style={{ backgroundColor: '#070419', borderRadius: 5, padding: 10, flex: 1, margin: 5 }} onPress={() => setShowMachineModal(true)}>
+                <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>Máquina</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={{ backgroundColor: '#070419', borderRadius: 5, padding: 10, flex: 1, margin: 5 }} onPress={() => setShowItemModal(true)}>
+                <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>Itens</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={{ backgroundColor: '#070419', borderRadius: 5, padding: 10, flex: 1, margin: 5 }} onPress={() => setShowServiceModal(true)}>
+                <Text style={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>Serviços</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
 
 
           {selectedItems.length > 0 && (
@@ -378,64 +373,64 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({
 
         {/* Modal de Itens */}
         <Modal visible={showItemModal} transparent={true} animationType="slide">
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-    <View style={{
-      backgroundColor: 'white',
-      margin: 20,
-      borderRadius: 10,
-      padding: 20,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.3,
-      shadowRadius: 4,
-      elevation: 5,
-      maxHeight: '70%',
-      width: '80%',
-    }}>
-      <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10, textAlign: 'center' }}>Selecionar Itens</Text>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+            <View style={{
+              backgroundColor: 'white',
+              margin: 20,
+              borderRadius: 10,
+              padding: 20,
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.3,
+              shadowRadius: 4,
+              elevation: 5,
+              maxHeight: '70%',
+              width: '80%',
+            }}>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10, textAlign: 'center' }}>Selecionar Itens</Text>
 
-      <View style={{ flexDirection: 'row', marginBottom: 20 }}>
-        <TouchableOpacity
-          onPress={() => setItemType('piece')}
-          style={{
-            flex: 1,
-            backgroundColor: itemType === 'piece' ? '#070419' : '#ccc',
-            padding: 10,
-            borderRadius: 5,
-            alignItems: 'center',
-          }}>
-          <Text style={{ color: itemType === 'piece' ? '#fff' : '#000', fontWeight: 'bold' }}>Peça</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => setItemType('material')}
-          style={{
-            flex: 1,
-            backgroundColor: itemType === 'material' ? '#070419' : '#ccc',
-            padding: 10,
-            borderRadius: 5,
-            alignItems: 'center',
-          }}>
-          <Text style={{ color: itemType === 'material' ? '#fff' : '#000', fontWeight: 'bold' }}>Material</Text>
-        </TouchableOpacity>
-      </View>
+              <View style={{ flexDirection: 'row', marginBottom: 20 }}>
+                <TouchableOpacity
+                  onPress={() => setItemType('piece')}
+                  style={{
+                    flex: 1,
+                    backgroundColor: itemType === 'piece' ? '#070419' : '#ccc',
+                    padding: 10,
+                    borderRadius: 5,
+                    alignItems: 'center',
+                  }}>
+                  <Text style={{ color: itemType === 'piece' ? '#fff' : '#000', fontWeight: 'bold' }}>Peça</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => setItemType('material')}
+                  style={{
+                    flex: 1,
+                    backgroundColor: itemType === 'material' ? '#070419' : '#ccc',
+                    padding: 10,
+                    borderRadius: 5,
+                    alignItems: 'center',
+                  }}>
+                  <Text style={{ color: itemType === 'material' ? '#fff' : '#000', fontWeight: 'bold' }}>Material</Text>
+                </TouchableOpacity>
+              </View>
 
-      {renderItemModal()}
+              {renderItemModal()}
 
-      <TouchableOpacity
-        style={{
-          backgroundColor: '#D3D3D3', 
-          padding: 10,
-          borderRadius: 5,
-          alignItems: 'center',
-          marginTop: 10,
-        }}
-        onPress={() => setShowItemModal(false)} 
-      >
-        <Text style={{ color: '#000', fontWeight: 'bold' }}>Fechar</Text>
-      </TouchableOpacity>
-    </View>
-  </View>
-</Modal>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: '#D3D3D3',
+                  padding: 10,
+                  borderRadius: 5,
+                  alignItems: 'center',
+                  marginTop: 10,
+                }}
+                onPress={() => setShowItemModal(false)}
+              >
+                <Text style={{ color: '#000', fontWeight: 'bold' }}>Fechar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
 
         {/* Modal de Serviços */}
         <Modal visible={showServiceModal} transparent={true} animationType="slide">
@@ -453,7 +448,7 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({
               maxHeight: '70%',
               width: '80%',
             }}>
-              <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10, textAlign:'center' }}>Selecionar Serviços</Text>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10, textAlign: 'center' }}>Selecionar Serviços</Text>
               {services.map(service => (
                 <TouchableOpacity key={service.id} onPress={() => handleSelectService(service)}>
                   <Text style={{ padding: 10 }}>{service.name}</Text>
@@ -461,13 +456,13 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({
               ))}
               <TouchableOpacity
                 style={{
-                  backgroundColor: '#D3D3D3', 
+                  backgroundColor: '#D3D3D3',
                   padding: 10,
                   borderRadius: 5,
                   alignItems: 'center',
                   marginTop: 10,
                 }}
-                onPress={() => setShowServiceModal(false)} 
+                onPress={() => setShowServiceModal(false)}
               >
                 <Text style={{ color: '#000', fontWeight: 'bold' }}>Fechar</Text>
               </TouchableOpacity>
@@ -491,7 +486,7 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({
               maxHeight: '70%',
               width: '80%',
             }}>
-              <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10, textAlign:'center' }}>Selecionar Máquina</Text>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10, textAlign: 'center' }}>Selecionar Máquina</Text>
               {machines.map(machine => (
                 <TouchableOpacity key={machine.id} onPress={() => handleSelectMachine(machine)}>
                   <Text style={{ padding: 10 }}>{machine.name}</Text>
@@ -499,7 +494,7 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({
               ))}
               <TouchableOpacity
                 style={{
-                  backgroundColor: '#D3D3D3', 
+                  backgroundColor: '#D3D3D3',
                   padding: 10,
                   borderRadius: 5,
                   alignItems: 'center',
@@ -520,3 +515,14 @@ const MaintenanceForm: React.FC<MaintenanceFormProps> = ({
 };
 
 export default MaintenanceForm;
+
+
+
+
+
+
+
+
+
+
+  

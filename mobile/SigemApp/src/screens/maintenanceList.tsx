@@ -4,50 +4,56 @@ import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Picker } from '@react-native-picker/picker';
 
-// Tipos para a manutenção
 type Maintenance = {
   id: string;
   nome: string;
   status: string;
   data: string;
   descricao: string;
+  os: string;  
+  equipe: string;  
 };
 
-// Dados simulados de manutenções
-const mockMaintenances: Maintenance[] = [
-  {
-    id: '1',
-    nome: 'Escavadeira XYZ',
-    status: 'em preparo',
-    data: '2023-09-01',
-    descricao: 'Troca de óleo e revisão geral',
-  },
-  {
-    id: '2',
-    nome: 'Retroescavadeira ABC',
-    status: 'pronto para execução',
-    data: '2023-09-05',
-    descricao: 'Verificação de sistemas hidráulicos',
-  },
-  {
-    id: '3',
-    nome: 'Pá Carregadeira DEF',
-    status: 'em serviço',
-    data: '2023-09-10',
-    descricao: 'Reparo de motor',
-  },
-];
-
-// Status disponíveis para seleção
-const statusOptions = [
-  'em preparo',
-  'pronto para execução',
-  'em serviço',
-  'concluído',
-  'cancelado',
-];
-
 const MaintenanceList: React.FC = () => {
+  const mockMaintenances: Maintenance[] = [
+    {
+      id: '1',
+      nome: 'Máquina A',
+      status: 'em preparo',
+      data: '2023-09-01',
+      descricao: 'Troca de óleo e revisão geral',
+      os: 'OS-001',  
+      equipe: 'Equipe A', 
+    },
+    {
+      id: '2',
+      nome: 'Máquina B',
+      status: 'pronto para execução',
+      data: '2023-09-05',
+      descricao: 'Verificação de sistemas hidráulicos',
+      os: 'OS-002', 
+      equipe: 'Equipe B',  
+    },
+    {
+      id: '3',
+      nome: 'Máquina C',
+      status: 'em serviço',
+      data: '2023-09-10',
+      descricao: 'Reparo de motor',
+      os: 'OS-003',  
+      equipe: 'Equipe C',  
+    },
+  ];
+
+  const statusOptions = [
+    'em preparo',
+    'pronto para execução',
+    'em serviço',
+    'concluído',
+    'cancelado',
+    'atrasado'
+  ];
+
   const [search, setSearch] = useState('');
   const [filteredMaintenances, setFilteredMaintenances] = useState(mockMaintenances);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -89,7 +95,7 @@ const MaintenanceList: React.FC = () => {
 
   const handleSaveStatus = () => {
     if (selectedMaintenance) {
-      selectedMaintenance.status = newStatus; // Atualiza o status
+      selectedMaintenance.status = newStatus;
       setDetailModalVisible(false);
       setSelectedMaintenance(null);
     }
@@ -105,6 +111,7 @@ const MaintenanceList: React.FC = () => {
         borderBottomColor: '#ddd',
       }}
     >
+      <Text style={{ flex: 0.6, fontSize: 16, color: '#333', textAlign: 'center' }}>{item.os}</Text> 
       <Text style={{ flex: 1, fontSize: 16, color: '#333', textAlign: 'center' }}>{item.nome}</Text>
       <Text style={{ flex: 1, fontSize: 16, color: '#333', textAlign: 'center' }}>{item.status}</Text>
       <Text style={{ flex: 1, fontSize: 16, color: '#333', textAlign: 'center' }}>{item.data}</Text>
@@ -146,6 +153,7 @@ const MaintenanceList: React.FC = () => {
         borderBottomWidth: 1,
         borderBottomColor: '#ddd',
       }}>
+        <Text style={{ flex: 0.6, fontWeight: 'bold', color: 'white', textAlign: 'center' }}>OS</Text>
         <Text style={{ flex: 1, fontWeight: 'bold', color: 'white', textAlign: 'center' }}>Máquina</Text>
         <Text style={{ flex: 1, fontWeight: 'bold', color: 'white', textAlign: 'center' }}>Status</Text>
         <Text style={{ flex: 1, fontWeight: 'bold', color: 'white', textAlign: 'center' }}>Data</Text>
@@ -204,6 +212,8 @@ const MaintenanceList: React.FC = () => {
               <Text>Status: {selectedMaintenance.status}</Text>
               <Text>Data: {selectedMaintenance.data}</Text>
               <Text>Descrição: {selectedMaintenance.descricao}</Text>
+              <Text>OS: {selectedMaintenance.os}</Text> 
+              <Text>Equipe: {selectedMaintenance.equipe}</Text> 
               <Text style={{ marginTop: 10 }}>Novo Status:</Text>
               <Picker
                 selectedValue={newStatus}

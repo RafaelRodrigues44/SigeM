@@ -8,8 +8,8 @@ import Button from '../components/button';
 type StackParamList = {
   Login: undefined;
   HomeTabs: undefined;  
-  Register: undefined; // Tela de registro
-  Forgot: undefined; // Tela de recuperação de senha
+  Register: undefined; 
+  Forgot: undefined; 
 };
 
 type NavigationProps = NativeStackNavigationProp<StackParamList, 'Login'>;
@@ -31,7 +31,7 @@ export default function LoginScreen() {
   };
 
   const handleForgotPassword = () => {
-    navigation.navigate('Forgot'); // Navega para a tela de recuperação de senha
+    navigation.navigate('Forgot'); 
   };
 
   const handleHelp = () => {
@@ -39,7 +39,7 @@ export default function LoginScreen() {
   };
 
   const handleRegister = () => {
-    navigation.navigate('Register'); // Navega para a tela de registro
+    navigation.navigate('Register'); 
   };
 
   return (

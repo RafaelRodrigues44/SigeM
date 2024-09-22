@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StatusBar, Modal } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; 
+import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import InputField from '../components/inputField';
 import Button from '../components/button';
@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 type StackParamList = {
   Register: undefined;
-  HomeTabs: undefined;  
+  HomeTabs: undefined;
   Login: undefined;
 };
 
@@ -21,8 +21,8 @@ export default function RegisterScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [isSuccess, setIsSuccess] = useState(true);
   const [modalMessage, setModalMessage] = useState('');
-  
-  const navigation = useNavigation<NavigationProps>(); 
+
+  const navigation = useNavigation<NavigationProps>();
 
   const handleRegister = () => {
     if (username && password && confirmPassword) {
@@ -49,7 +49,7 @@ export default function RegisterScreen() {
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#070419', padding: 20 }}>
       <StatusBar hidden={false} />
       <Text style={{ fontSize: 40, color: 'white', marginBottom: 32 }}>Cadastro</Text>
-      
+
       <View style={{ marginBottom: 16, width: '83%' }}>
         <InputField
           label="Usuário"
@@ -73,12 +73,12 @@ export default function RegisterScreen() {
           secureTextEntry={true}
         />
       </View>
-      
+
       <View style={{ marginBottom: 30 }}>
         <Button
           title="Cadastrar"
-          onPress={handleRegister}  
-          color="#A9A9A9" 
+          onPress={handleRegister}
+          color="#A9A9A9"
           textColor="#FFFFFF"
           fontSize={18}
           height={50}

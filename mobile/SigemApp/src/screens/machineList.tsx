@@ -12,7 +12,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Picker } from '@react-native-picker/picker';
-import DateTimePicker from '@react-native-community/datetimepicker'; // Import DateTimePicker
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 type MachineListProps = StackScreenProps<any>;
 
@@ -61,14 +61,14 @@ const MachineList: React.FC<MachineListProps> = ({ navigation }) => {
   });
 
   const [updatedStatus, setUpdatedStatus] = useState(selectedMachine?.status || 'ativo');
-  const [showDatePicker, setShowDatePicker] = useState(false); // State to control DateTimePicker visibility
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleSearchChange = (text: string) => {
     setSearch(text);
     const filtered = text
       ? mockMachines.filter(machine =>
-          machine.nome.toLowerCase().includes(text.toLowerCase())
-        )
+        machine.nome.toLowerCase().includes(text.toLowerCase())
+      )
       : mockMachines;
     setFilteredMachines(filtered);
   };
@@ -107,8 +107,8 @@ const MachineList: React.FC<MachineListProps> = ({ navigation }) => {
 
   const renderMachine = ({ item, index }: { item: Machine; index: number }) => {
     const backgroundColor = item.status === 'ativo' ? 'rgba(128, 128, 128, 0.1)' :
-    item.status === 'inativo' ? 'rgba(255, 0, 0, 0.2)' :
-    'rgba(255, 165, 0, 0.2)';
+      item.status === 'inativo' ? 'rgba(255, 0, 0, 0.2)' :
+        'rgba(255, 165, 0, 0.2)';
 
     return (
       <TouchableOpacity
@@ -160,7 +160,7 @@ const MachineList: React.FC<MachineListProps> = ({ navigation }) => {
 
   const onDateChange = (event: any, selectedDate: Date | undefined) => {
     if (selectedDate) {
-      const formattedDate = selectedDate.toISOString().split('T')[0]; // Format the date as YYYY-MM-DD
+      const formattedDate = selectedDate.toISOString().split('T')[0];
       setNewMachine({ ...newMachine, dataCompra: formattedDate });
     }
     setShowDatePicker(false);
@@ -346,165 +346,165 @@ const MachineList: React.FC<MachineListProps> = ({ navigation }) => {
 
       {/* Modal de cadastro de nova máquina */}
       <Modal isVisible={isAddModalVisible}>
-  <ScrollView 
-    style={{
-      backgroundColor: '#fff',
-      borderRadius: 8,
-      padding: 20,
-      maxHeight: '100%',  
-    }}
-    contentContainerStyle={{
-      paddingBottom: 50,  // Add padding to the bottom
-    }}
-  >
-    <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 20, textAlign: 'center' }}>Cadastrar Máquina</Text>
+        <ScrollView
+          style={{
+            backgroundColor: '#fff',
+            borderRadius: 8,
+            padding: 20,
+            maxHeight: '100%',
+          }}
+          contentContainerStyle={{
+            paddingBottom: 50,
+          }}
+        >
+          <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 20, textAlign: 'center' }}>Cadastrar Máquina</Text>
 
-    <Text style={{ marginBottom: 5 }}>Máquina</Text>
-    <TextInput
-      placeholder="Nome da Máquina"
-      value={newMachine.nome}
-      onChangeText={text => setNewMachine({ ...newMachine, nome: text })}
-      style={{
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
-        padding: 10,
-        marginBottom: 10,
-      }}
-    />
+          <Text style={{ marginBottom: 5 }}>Máquina</Text>
+          <TextInput
+            placeholder="Nome da Máquina"
+            value={newMachine.nome}
+            onChangeText={text => setNewMachine({ ...newMachine, nome: text })}
+            style={{
+              borderWidth: 1,
+              borderColor: '#ccc',
+              borderRadius: 5,
+              padding: 10,
+              marginBottom: 10,
+            }}
+          />
 
-    <Text style={{ marginBottom: 5 }}>Tipo</Text>
-    <TextInput
-      placeholder="Tipo"
-      value={newMachine.tipo}
-      onChangeText={text => setNewMachine({ ...newMachine, tipo: text })}
-      style={{
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
-        padding: 10,
-        marginBottom: 10,
-      }}
-    />
+          <Text style={{ marginBottom: 5 }}>Tipo</Text>
+          <TextInput
+            placeholder="Tipo"
+            value={newMachine.tipo}
+            onChangeText={text => setNewMachine({ ...newMachine, tipo: text })}
+            style={{
+              borderWidth: 1,
+              borderColor: '#ccc',
+              borderRadius: 5,
+              padding: 10,
+              marginBottom: 10,
+            }}
+          />
 
-    <Text style={{ marginBottom: 5 }}>Data de Compra</Text>
-    <TouchableOpacity
-      onPress={showDatePickerHandler}
-      style={{
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
-        padding: 10,
-        marginBottom: 10,
-      }}>
-      <Text style={{ color: '#333' }}>
-        {newMachine.dataCompra ? newMachine.dataCompra : 'Selecionar Data de Compra'}
-      </Text>
-    </TouchableOpacity>
+          <Text style={{ marginBottom: 5 }}>Data de Compra</Text>
+          <TouchableOpacity
+            onPress={showDatePickerHandler}
+            style={{
+              borderWidth: 1,
+              borderColor: '#ccc',
+              borderRadius: 5,
+              padding: 10,
+              marginBottom: 10,
+            }}>
+            <Text style={{ color: '#333' }}>
+              {newMachine.dataCompra ? newMachine.dataCompra : 'Selecionar Data de Compra'}
+            </Text>
+          </TouchableOpacity>
 
-    {showDatePicker && (
-      <DateTimePicker
-        value={new Date(newMachine.dataCompra || Date.now())}
-        mode="date"
-        display="default"
-        onChange={onDateChange}
-      />
-    )}
+          {showDatePicker && (
+            <DateTimePicker
+              value={new Date(newMachine.dataCompra || Date.now())}
+              mode="date"
+              display="default"
+              onChange={onDateChange}
+            />
+          )}
 
-    <Text style={{ marginBottom: 5 }}>Localização</Text>
-    <Picker
-      selectedValue={newMachine.localizacao}
-      onValueChange={(itemValue) => setNewMachine({ ...newMachine, localizacao: itemValue })}
-      style={{
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
-        marginBottom: 10,
-      }}>
-      {sectors.map(sector => (
-        <Picker.Item key={sector} label={sector} value={sector} />
-      ))}
-    </Picker>
+          <Text style={{ marginBottom: 5 }}>Localização</Text>
+          <Picker
+            selectedValue={newMachine.localizacao}
+            onValueChange={(itemValue) => setNewMachine({ ...newMachine, localizacao: itemValue })}
+            style={{
+              borderWidth: 1,
+              borderColor: '#ccc',
+              borderRadius: 5,
+              marginBottom: 10,
+            }}>
+            {sectors.map(sector => (
+              <Picker.Item key={sector} label={sector} value={sector} />
+            ))}
+          </Picker>
 
-    <Text style={{ marginBottom: 5 }}>Descrição</Text>
-    <TextInput
-      placeholder="Descrição"
-      value={newMachine.descricao}
-      onChangeText={text => setNewMachine({ ...newMachine, descricao: text })}
-      style={{
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
-        padding: 10,
-        marginBottom: 10,
-      }}
-    />
+          <Text style={{ marginBottom: 5 }}>Descrição</Text>
+          <TextInput
+            placeholder="Descrição"
+            value={newMachine.descricao}
+            onChangeText={text => setNewMachine({ ...newMachine, descricao: text })}
+            style={{
+              borderWidth: 1,
+              borderColor: '#ccc',
+              borderRadius: 5,
+              padding: 10,
+              marginBottom: 10,
+            }}
+          />
 
-    <Text style={{ marginBottom: 5 }}>Fabricante</Text>
-    <TextInput
-      placeholder="Fabricante"
-      value={newMachine.fabricante}
-      onChangeText={text => setNewMachine({ ...newMachine, fabricante: text })}
-      style={{
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
-        padding: 10,
-        marginBottom: 10,
-      }}
-    />
+          <Text style={{ marginBottom: 5 }}>Fabricante</Text>
+          <TextInput
+            placeholder="Fabricante"
+            value={newMachine.fabricante}
+            onChangeText={text => setNewMachine({ ...newMachine, fabricante: text })}
+            style={{
+              borderWidth: 1,
+              borderColor: '#ccc',
+              borderRadius: 5,
+              padding: 10,
+              marginBottom: 10,
+            }}
+          />
 
-    <Text style={{ marginBottom: 5 }}>Modelo</Text>
-    <TextInput
-      placeholder="Modelo"
-      value={newMachine.modelo}
-      onChangeText={text => setNewMachine({ ...newMachine, modelo: text })}
-      style={{
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
-        padding: 10,
-        marginBottom: 10,
-      }}
-    />
+          <Text style={{ marginBottom: 5 }}>Modelo</Text>
+          <TextInput
+            placeholder="Modelo"
+            value={newMachine.modelo}
+            onChangeText={text => setNewMachine({ ...newMachine, modelo: text })}
+            style={{
+              borderWidth: 1,
+              borderColor: '#ccc',
+              borderRadius: 5,
+              padding: 10,
+              marginBottom: 10,
+            }}
+          />
 
-    <Text style={{ marginBottom: 5 }}>Ano de Fabricação</Text>
-    <TextInput
-      placeholder="Ano de Fabricação"
-      value={newMachine.anoFabricacao.toString()}
-      onChangeText={text => setNewMachine({ ...newMachine, anoFabricacao: parseInt(text, 10) })}
-      keyboardType="numeric"
-      style={{
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
-        padding: 10,
-        marginBottom: 20,
-      }}
-    />
+          <Text style={{ marginBottom: 5 }}>Ano de Fabricação</Text>
+          <TextInput
+            placeholder="Ano de Fabricação"
+            value={newMachine.anoFabricacao.toString()}
+            onChangeText={text => setNewMachine({ ...newMachine, anoFabricacao: parseInt(text, 10) })}
+            keyboardType="numeric"
+            style={{
+              borderWidth: 1,
+              borderColor: '#ccc',
+              borderRadius: 5,
+              padding: 10,
+              marginBottom: 20,
+            }}
+          />
 
-    <TouchableOpacity
-      onPress={handleAddMachine}
-      style={{
-        backgroundColor: '#070419',
-        padding: 10,
-        borderRadius: 5,
-        marginBottom: 10,  // Add margin for spacing
-      }}>
-      <Text style={{ textAlign: 'center', color: 'white', fontWeight: 'bold' }}>Adicionar Máquina</Text>
-    </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleAddMachine}
+            style={{
+              backgroundColor: '#070419',
+              padding: 10,
+              borderRadius: 5,
+              marginBottom: 10,
+            }}>
+            <Text style={{ textAlign: 'center', color: 'white', fontWeight: 'bold' }}>Adicionar Máquina</Text>
+          </TouchableOpacity>
 
-    <TouchableOpacity
-      onPress={() => setAddModalVisible(false)}
-      style={{
-        backgroundColor: '#ccc',
-        padding: 10,
-        borderRadius: 5,
-      }}>
-      <Text style={{ textAlign: 'center', color: 'white', fontWeight: 'bold' }}>Cancelar</Text>
-    </TouchableOpacity>
-  </ScrollView>
-</Modal>
+          <TouchableOpacity
+            onPress={() => setAddModalVisible(false)}
+            style={{
+              backgroundColor: '#ccc',
+              padding: 10,
+              borderRadius: 5,
+            }}>
+            <Text style={{ textAlign: 'center', color: 'white', fontWeight: 'bold' }}>Cancelar</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </Modal>
 
     </View>
   );
